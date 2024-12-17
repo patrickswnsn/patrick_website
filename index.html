@@ -40,7 +40,7 @@
                     <div class="hero-text">
                         <h1>Hi, I'm Patrick! 👋</h1>
                         <p class="intro">
-                            I'm a journalist a and technologist who loves to build things — from AI tools for newsrooms to TikTok accounts that reach millions.
+                            I'm a journalist and technologist who loves to build things — from AI tools for newsrooms to TikTok accounts that reach millions.
                         </p>
                         <div class="verso-intro">
                             <p>
@@ -267,161 +267,157 @@
     <script type="module">
         import PongGame from './pong.js';
 
-        let typingCompleted = false;
-        let isTyping = false;
-        let pongGame = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            let typingCompleted = false;
+            let isTyping = false;
+            let pongGame = null;
 
-        const easterEggText = [
-            "// This website was built by",
-            "// - Patrick Swanson, a human",
-            "// - Anthropic Claude, an AI model",
-            "",
-            "// Now, click your mouse."
-        ];
-        
-        const lineNumber = document.querySelector('.line-number');
-        const easterEgg = document.querySelector('.easter-egg');
-        const typedText = document.querySelector('.typed-text');
-        const heroSection = document.querySelector('.hero');
-
-        function showContent(section) {
-            const contentSections = document.querySelectorAll('.content-section');
-            const expandedContent = document.getElementById('expanded-content');
-            const clickedContent = document.getElementById(`${section}-content`);
-            const allCards = document.querySelectorAll('.highlight-card');
-            const clickedCard = document.querySelector(`[data-section="${section}"]`);
+            const easterEggText = [
+                "// This website was built by",
+                "// - Patrick Swanson, a human",
+                "// - Anthropic Claude, an AI model",
+                "",
+                "// Now, click your mouse."
+            ];
             
-            if (clickedCard.classList.contains('active')) {
-                expandedContent.classList.remove('active');
-                clickedCard.classList.remove('active');
-                setTimeout(() => {
-                    contentSections.forEach(section => section.classList.remove('active'));
-                }, 300);
-                return;
+            // Cache DOM elements
+            const lineNumber = document.querySelector('.line-number');
+            const easterEgg = document.querySelector('.easter-egg');
+            const typedText = document.querySelector('.typed-text');
+            const heroSection = document.querySelector('.hero');
+            const heroContent = document.querySelector('.hero-content');
+            const pongCanvas = document.getElementById('pongCanvas');
+            const gameControls = document.querySelector('.game-controls');
+            const workHighlights = document.querySelector('.work-highlights');
+
+            function showContent(section) {
+                const contentSections = document.querySelectorAll('.content-section');
+                const expandedContent = document.getElementById('expanded-content');
+                const clickedContent = document.getElementById(`${section}-content`);
+                const allCards = document.querySelectorAll('.highlight-card');
+                const clickedCard = document.querySelector(`[data-section="${section}"]`);
+                
+                if (clickedCard.classList.contains('active')) {
+                    expandedContent.classList.remove('active');
+                    clickedCard.classList.remove('active');
+                    setTimeout(() => {
+                        contentSections.forEach(section => section.classList.remove('active'));
+                    }, 300);
+                    return;
+                }
+
+                allCards.forEach(card => card.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('active'));
+                
+                clickedCard.classList.add('active');
+                clickedContent.classList.add('active');
+                expandedContent.classList.add('active');
             }
 
-            allCards.forEach(card => card.classList.remove('active'));
-            contentSections.forEach(section => section.classList.remove('active'));
-            
-            clickedCard.classList.add('active');
-            clickedContent.classList.add('active');
-            expandedContent.classList.add('active');
-        }
-
-        function toggleCaseStudy(event) {
-            const header = event.currentTarget;
-            const content = header.nextElementSibling;
-            
-            header.classList.toggle('active');
-            content.classList.toggle('active');
-        }
-
-        function updateLineNumber() {
-            lineNumber.textContent = "Go";
-            lineNumber.classList.add('ready-to-play');
-            lineNumber.addEventListener('click', startGame);
-        }
-
-        function startGame() {
-            if (typingCompleted && !pongGame) {
-                const easterEgg = document.querySelector('.easter-egg');
-                const pongCanvas = document.getElementById('pongCanvas');
-                const gameControls = document.querySelector('.game-controls');
-                const workHighlights = document.querySelector('.work-highlights');
+            function toggleCaseStudy(event) {
+                const header = event.currentTarget;
+                const content = header.nextElementSibling;
                 
-                easterEgg.style.opacity = '0';
-                workHighlights.classList.add('hidden');
-                setTimeout(() => {
-                    easterEgg.style.display = 'none';
-                    pongCanvas.classList.add('active');
-                    gameControls.classList.add('active');
-                    pongGame = new PongGame(pongCanvas);
-                    pongGame.start();
-                    lineNumber.style.display = 'none';
-                }, 300);
+                header.classList.toggle('active');
+                content.classList.toggle('active');
             }
-        }
 
-        function handleMouseEnter() {
-            if (!pongGame && !isTyping) {
-                isTyping = true;
-                const heroContent = document.querySelector('.hero-content');
-                const easterEgg = document.querySelector('.easter-egg');
-                
-                heroContent.classList.add('hidden');
-                setTimeout(() => {
-                    easterEgg.classList.add('active');
-                    typeText();
-                }, 300);
+            function updateLineNumber() {
+                lineNumber.textContent = "Go";
+                lineNumber.classList.add('ready-to-play');
+                lineNumber.addEventListener('click', startGame);
             }
-        }
 
-        function handleMouseLeave() {
-            if (!pongGame) {
-                const heroContent = document.querySelector('.hero-content');
-                const easterEgg = document.querySelector('.easter-egg');
-                
-                typedText.textContent = '';
-                easterEgg.classList.remove('active');
-                heroContent.classList.remove('hidden');
-                
-                isTyping = false;
-                typingCompleted = false;
-                lineNumber.textContent = "1";
-                lineNumber.classList.remove('ready-to-play');
-            }
-        }
-
-        function typeText() {
-            let lineIndex = 0;
-            let charIndex = 0;
-            let currentText = '';
-
-            function type() {
-                if (!isTyping) return;
-                
-                if (lineIndex < easterEggText.length) {
-                    if (charIndex < easterEggText[lineIndex].length) {
-                        currentText += easterEggText[lineIndex][charIndex];
-                        typedText.textContent = currentText;
-                        charIndex++;
-                        setTimeout(type, 50);
-                    } else {
-                        currentText += '\n';
-                        lineIndex++;
-                        charIndex = 0;
-                        if (lineIndex < easterEggText.length) {
-                            setTimeout(type, 200);
-                        } else {
-                            typingCompleted = true;
-                            isTyping = false;
-                            updateLineNumber();
-                        }
-                    }
+            function startGame() {
+                if (typingCompleted && !pongGame) {
+                    easterEgg.style.opacity = '0';
+                    workHighlights.classList.add('hidden');
+                    setTimeout(() => {
+                        easterEgg.style.display = 'none';
+                        pongCanvas.classList.add('active');
+                        gameControls.classList.add('active');
+                        pongGame = new PongGame(pongCanvas);
+                        pongGame.start();
+                        lineNumber.style.display = 'none';
+                    }, 300);
                 }
             }
 
-            type();
-        }
-
-        // Add event listeners
-        lineNumber.addEventListener('mouseenter', handleMouseEnter);
-        lineNumber.addEventListener('mouseleave', handleMouseLeave);
-
-        // Add game control listeners
-        document.querySelector('.new-game').addEventListener('click', () => {
-            if (pongGame) {
-                pongGame.resetGame();
+            function handleMouseEnter() {
+                if (!pongGame && !isTyping) {
+                    isTyping = true;
+                    heroContent.classList.add('hidden');
+                    setTimeout(() => {
+                        easterEgg.classList.add('active');
+                        typeText();
+                    }, 300);
+                }
             }
-        });
 
-        document.querySelector('.end-game').addEventListener('click', () => {
-            window.location.href = '/';
-        });
+            function handleMouseLeave() {
+                if (!pongGame) {
+                    typedText.textContent = '';
+                    easterEgg.classList.remove('active');
+                    heroContent.classList.remove('hidden');
+                    
+                    isTyping = false;
+                    typingCompleted = false;
+                    lineNumber.textContent = "1";
+                    lineNumber.classList.remove('ready-to-play');
+                }
+            }
 
-        // Make functions available globally for onclick handlers
-        window.showContent = showContent;
-        window.toggleCaseStudy = toggleCaseStudy;
+            function typeText() {
+                let lineIndex = 0;
+                let charIndex = 0;
+                let currentText = '';
+
+                function type() {
+                    if (!isTyping) return;
+                    
+                    if (lineIndex < easterEggText.length) {
+                        if (charIndex < easterEggText[lineIndex].length) {
+                            currentText += easterEggText[lineIndex][charIndex];
+                            typedText.textContent = currentText;
+                            charIndex++;
+                            setTimeout(type, 50);
+                        } else {
+                            currentText += '\n';
+                            lineIndex++;
+                            charIndex = 0;
+                            if (lineIndex < easterEggText.length) {
+                                setTimeout(type, 200);
+                            } else {
+                                typingCompleted = true;
+                                isTyping = false;
+                                updateLineNumber();
+                            }
+                        }
+                    }
+                }
+
+                type();
+            }
+
+            // Add event listeners
+            lineNumber.addEventListener('mouseenter', handleMouseEnter);
+            lineNumber.addEventListener('mouseleave', handleMouseLeave);
+
+            // Add game control listeners
+            document.querySelector('.new-game').addEventListener('click', () => {
+                if (pongGame) {
+                    pongGame.resetGame();
+                }
+            });
+
+            document.querySelector('.end-game').addEventListener('click', () => {
+                window.location.href = '/';
+            });
+
+            // Make functions available globally for onclick handlers
+            window.showContent = showContent;
+            window.toggleCaseStudy = toggleCaseStudy;
+        });
     </script>
 </body>
 </html> 
