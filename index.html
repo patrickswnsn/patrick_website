@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patrick Swanson</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
 <body>
     <header>
@@ -32,12 +34,13 @@
 
     <main>
         <section class="hero">
+            <span class="line-number">1</span>
             <div class="hero-content">
                 <div class="hero-grid">
                     <div class="hero-text">
                         <h1>Hi, I'm Patrick! 👋</h1>
                         <p class="intro">
-                            I'm a journalist and technologist who loves to build things — from AI tools to news accounts on TikTok, from innovation strategies to podcasts and games.
+                            I'm a journalist and technologist who loves to build things — from AI tools for newsrooms to TikTok accounts that reach millions.
                         </p>
                         <div class="verso-intro">
                             <p>
@@ -261,7 +264,26 @@
         </p>
     </footer>
 
-    <script>
+    <script type="module">
+        import PongGame from './pong.js';
+
+        let typingCompleted = false;
+        let isTyping = false;
+        let pongGame = null;
+
+        const easterEggText = [
+            "// This website was built by",
+            "// - Patrick Swanson, a human",
+            "// - Anthropic Claude, an AI model",
+            "",
+            "// Now, click your mouse."
+        ];
+        
+        const lineNumber = document.querySelector('.line-number');
+        const easterEgg = document.querySelector('.easter-egg');
+        const typedText = document.querySelector('.typed-text');
+        const heroSection = document.querySelector('.hero');
+
         function showContent(section) {
             const contentSections = document.querySelectorAll('.content-section');
             const expandedContent = document.getElementById('expanded-content');
@@ -293,31 +315,33 @@
             header.classList.toggle('active');
             content.classList.toggle('active');
         }
-    </script>
 
-    <script type="module">
-        import PongGame from './pong.js';
+        function updateLineNumber() {
+            lineNumber.textContent = "Go";
+            lineNumber.classList.add('ready-to-play');
+            lineNumber.addEventListener('click', startGame);
+        }
 
-        let typingCompleted = false;
-        let isTyping = false;
-        let pongGame = null;
+        function startGame() {
+            if (typingCompleted && !pongGame) {
+                const easterEgg = document.querySelector('.easter-egg');
+                const pongCanvas = document.getElementById('pongCanvas');
+                const gameControls = document.querySelector('.game-controls');
+                const workHighlights = document.querySelector('.work-highlights');
+                
+                easterEgg.style.opacity = '0';
+                workHighlights.classList.add('hidden');
+                setTimeout(() => {
+                    easterEgg.style.display = 'none';
+                    pongCanvas.classList.add('active');
+                    gameControls.classList.add('active');
+                    pongGame = new PongGame(pongCanvas);
+                    pongGame.start();
+                    lineNumber.style.display = 'none';
+                }, 300);
+            }
+        }
 
-        // Easter egg typewriter effect
-        const easterEggText = [
-            "// This website was built by",
-            "// - Patrick Swanson, a human",
-            "// - Anthropic Claude, an AI model",
-            "",
-            "// Now, click your mouse."
-        ];
-        
-        const legal = document.querySelector('.legal');
-        const copyrightText = document.querySelector('.copyright-text');
-        const easterEgg = document.querySelector('.easter-egg');
-        const typedText = document.querySelector('.typed-text');
-        const heroSection = document.querySelector('.hero');
-
-        // Move event listener functions outside to make them reusable
         function handleMouseEnter() {
             if (!pongGame && !isTyping) {
                 isTyping = true;
@@ -341,16 +365,12 @@
                 easterEgg.classList.remove('active');
                 heroContent.classList.remove('hidden');
                 
-                // Make sure we reset all states
                 isTyping = false;
                 typingCompleted = false;
-                copyrightText.classList.remove('no-animation');
+                lineNumber.textContent = "1";
+                lineNumber.classList.remove('ready-to-play');
             }
         }
-
-        // Update initial event listeners to use named functions
-        legal.addEventListener('mouseenter', handleMouseEnter);
-        legal.addEventListener('mouseleave', handleMouseLeave);
 
         function typeText() {
             let lineIndex = 0;
@@ -365,18 +385,17 @@
                         currentText += easterEggText[lineIndex][charIndex];
                         typedText.textContent = currentText;
                         charIndex++;
-                        setTimeout(type, 50); // Typing speed
+                        setTimeout(type, 50);
                     } else {
                         currentText += '\n';
                         lineIndex++;
                         charIndex = 0;
                         if (lineIndex < easterEggText.length) {
-                            setTimeout(type, 200); // Delay between lines
+                            setTimeout(type, 200);
                         } else {
-                            // Typing completed
                             typingCompleted = true;
                             isTyping = false;
-                            updateLegalText();
+                            updateLineNumber();
                         }
                     }
                 }
@@ -385,44 +404,24 @@
             type();
         }
 
-        // Function to update legal text after typing
-        function updateLegalText() {
-            copyrightText.textContent = "Let's Play";
-            copyrightText.classList.add('no-animation');
-        }
+        // Add event listeners
+        lineNumber.addEventListener('mouseenter', handleMouseEnter);
+        lineNumber.addEventListener('mouseleave', handleMouseLeave);
 
-        // Initialize game when clicking "Let's Play"
-        legal.addEventListener('click', () => {
-            if (typingCompleted && !pongGame) {
-                const easterEgg = document.querySelector('.easter-egg');
-                const pongCanvas = document.getElementById('pongCanvas');
-                const gameControls = document.querySelector('.game-controls');
-                const heroContent = document.querySelector('.hero-content');
-                const workHighlights = document.querySelector('.work-highlights');
-                
-                easterEgg.style.opacity = '0';
-                workHighlights.classList.add('hidden');  // Hide work highlights
-                setTimeout(() => {
-                    easterEgg.style.display = 'none';
-                    pongCanvas.classList.add('active');
-                    gameControls.classList.add('active');
-                    pongGame = new PongGame(pongCanvas);
-                    pongGame.start();
-                }, 300);
-            }
-        });
-
-        // Add new game button listener
+        // Add game control listeners
         document.querySelector('.new-game').addEventListener('click', () => {
             if (pongGame) {
                 pongGame.resetGame();
             }
         });
 
-        // Update end game button event listener
         document.querySelector('.end-game').addEventListener('click', () => {
-            window.location.href = '/';  // This will refresh the page, just like clicking the header link
+            window.location.href = '/';
         });
+
+        // Make functions available globally for onclick handlers
+        window.showContent = showContent;
+        window.toggleCaseStudy = toggleCaseStudy;
     </script>
 </body>
 </html> 

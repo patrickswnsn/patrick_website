@@ -125,6 +125,14 @@ class PongGame {
         this.ctx.fillStyle = '#D7BA7D';
         this.ctx.fillText(`AI ${this.computerScore}`, this.canvas.width - 40, 30);
 
+        // Add subtle "First to 5" indicator in the center
+        if (this.gameStarted && !this.gameOver) {
+            this.ctx.textAlign = 'center';
+            this.ctx.font = '12px "SF Mono", Menlo, Monaco, Consolas, monospace';
+            this.ctx.fillStyle = '#404040';
+            this.ctx.fillText('FIRST TO 5', this.canvas.width / 2, 30);
+        }
+
         // Only draw center line when game has started
         if (this.gameStarted) {
             this.ctx.setLineDash([5, 15]);
@@ -142,23 +150,12 @@ class PongGame {
             this.ctx.textAlign = 'center';
             const centerY = this.canvas.height / 2;
             
-            // Draw rules above the countdown
-            this.ctx.font = '24px "SF Mono", Menlo, Monaco, Consolas, monospace';
-            this.ctx.fillStyle = '#D7BA7D';
-            this.ctx.fillText('First to 5 points wins!', this.canvas.width / 2, centerY - 60);
-            
             // Draw big countdown number
             this.ctx.font = '72px "SF Mono", Menlo, Monaco, Consolas, monospace';
             this.ctx.fillStyle = '#4FC1FF';
-            // Adjust for font baseline to make it truly centered
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(this.countdown, this.canvas.width / 2, centerY);
-            this.ctx.textBaseline = 'alphabetic'; // Reset to default
-            
-            // Draw instructions below the countdown
-            this.ctx.font = '16px "SF Mono", Menlo, Monaco, Consolas, monospace';
-            this.ctx.fillStyle = '#CCCCCC';
-            this.ctx.fillText('Use your mouse to move the paddle', this.canvas.width / 2, centerY + 60);
+            this.ctx.textBaseline = 'alphabetic';
             
             return;
         }
