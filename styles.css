@@ -76,7 +76,6 @@ nav {
     font-weight: 500;
     font-size: 0.9rem;
     letter-spacing: 0.02em;
-    color: var(--accent-orange);
     position: relative;
     padding-left: 1.5rem;
     white-space: nowrap;
@@ -126,12 +125,22 @@ nav {
 .hero {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 4rem var(--side-padding) 3rem;
+    padding: 4rem var(--side-padding) 2rem;
+    transition: all 0.3s ease;
+    min-height: 500px;
+    position: relative;
 }
 
 .hero-content {
     margin: 0 auto;
     position: relative;
+    transition: opacity 0.3s ease;
+    height: 100%;
+}
+
+.hero-content.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .hero-grid {
@@ -305,8 +314,16 @@ nav {
 .work-highlights {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 1.5rem var(--side-padding);
+    padding: 0 var(--side-padding) 1.5rem;
     position: relative;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.work-highlights.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .highlight-grid {
@@ -581,6 +598,89 @@ footer a:hover {
     margin-top: 1rem;
     font-size: 0.8rem;
     opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.legal:hover {
+    opacity: 1;
+}
+
+.copyright-text {
+    display: inline-block;
+    position: relative;
+    color: var(--text-secondary);
+}
+
+.copyright-text::before {
+    content: "©2024";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--accent-blue);
+    overflow: hidden;
+    animation: sweep 5s ease-in-out infinite;
+    clip-path: inset(0 100% 0 0);
+}
+
+/* Add this new class to disable the animation */
+.copyright-text.no-animation::before {
+    animation: none;
+    content: none;
+}
+
+@keyframes sweep {
+    0%, 80% {
+        clip-path: inset(0 100% 0 0);
+    }
+    90% {
+        clip-path: inset(0 0 0 0);
+    }
+    100% {
+        clip-path: inset(0 0 0 100%);
+    }
+}
+
+.easter-egg {
+    position: absolute;
+    top: 6rem;
+    left: var(--side-padding);
+    transform: none;
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    text-align: left;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    width: 100%;
+    max-width: 600px;
+}
+
+.easter-egg.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.typed-text {
+    white-space: pre-line;
+    position: relative;
+}
+
+.typed-text::after {
+    content: '|';
+    display: inline-block;
+    color: var(--accent-blue);
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 /* Responsive design */
@@ -688,7 +788,11 @@ footer a:hover {
 
 /* Profile image overlay */
 .profile-image-placeholder::before {
-    content: "// profile.jpg";
+    content: "// JSK Fellowships, Stanford";
+    opacity: 0;
+}
+
+.profile-image-placeholder:hover::before {
     opacity: 0.7;
 }
 
@@ -873,4 +977,70 @@ footer a:hover {
 
 .speaking-image:nth-child(2) .talk-image {
     object-position: center 30%;
+}
+
+.pong-game {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.pong-game.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+.game-controls {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -50px;
+    display: none;
+    gap: 16px;
+    z-index: 1000;
+}
+
+.game-button, .end-game {
+    min-width: 120px;
+    text-align: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game-button:hover, .end-game:hover {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: #ffffff;
+}
+
+.pong-game.active + .game-controls {
+    display: flex;
+    justify-content: center;
+}
+
+.logo-link {
+    text-decoration: none;
+    color: var(--accent-orange);
+    transition: color var(--transition-speed) ease;
+}
+
+.logo-link:hover {
+    color: var(--accent-blue);
 }

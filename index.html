@@ -9,7 +9,9 @@
 <body>
     <header>
         <nav>
-            <div class="logo">PATRICK SWANSON</div>
+            <div class="logo">
+                <a href="/" class="logo-link">PATRICK SWANSON</a>
+            </div>
             <div class="nav-links">
                 <a href="https://github.com/patrickswnsn" target="_blank" rel="noopener noreferrer">
                     <img src="icons/github.svg" alt="GitHub" class="social-icon">
@@ -34,13 +36,13 @@
                     <div class="hero-text">
                         <h1>Hi, I'm Patrick! 👋</h1>
                         <p class="intro">
-                            I'm a journalist and technologist who loves building things — from AI tools to news products, from digital strategies to podcasts.
+                            I'm a journalist and technologist who loves to build things — from AI tools to news accounts on TikTok, from innovation strategies to podcasts and games.
                         </p>
                         <div class="verso-intro">
                             <p>
                                 Together with <a href="https://kavehwaddell.com" target="_blank" rel="noopener noreferrer">Kaveh Waddell</a>, 
                                 I co-founded <a href="https://verso.ink" target="_blank" rel="noopener noreferrer">Verso</a>, 
-                                a consulting lab based in San Francisco. We help newsrooms, non-profits and startups step into the age of artificial intelligence.
+                                a consulting lab based in San Francisco. We work with newsrooms, non-profits and startups around the globe to help them step into the AI age.
                             </p>
                         </div>
                     </div>
@@ -50,6 +52,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="easter-egg">
+                <span class="typed-text"></span>
+            </div>
+            <canvas id="pongCanvas" class="pong-game"></canvas>
+            <div class="game-controls">
+                <button class="game-button new-game">New Game</button>
+                <button class="game-button end-game">End Game</button>
             </div>
         </section>
 
@@ -89,28 +99,52 @@
                         Our approach combines journalistic experience with technical expertise.</p>
                         
                         <div class="work-examples">
-                            
                             <h3>What We Do</h3>
                             <ul>
-                                <li>Develop AI strategies and tools for newsrooms</li>
+                                <li>Design and build AI tools for media organizations</li>
                                 <li>Train editors and reporters on AI implementation</li>
+                                <li>Help leaders develop AI strategies for their organizations</li>
                                 <li>Research AI's impact on journalism and democracy</li>
-                                <li>Build innovative AI products for media organizations</li>
                             </ul>
                         </div>
 
-                        <h3>Recent Projects</h3>
-                            <ul>
-                                <li><a href="https://verso.ink/a-playground-is-all-you-need" class="project-title">Verso Playground</a> - An experimental AI toolbox for journalists that helps adapt content for different formats and audiences.</li>
-                                <li><a href="https://verso.ink/keeping-up-with-joe-rogan" class="project-title">Roganbot</a> - An AI system that analyzes The Joe Rogan Experience to help track how ideas spread through new media.</li>
-                            </ul>
-
                         <div class="featured-project">
-                            <h3>Background</h3>
-                            <p>My work in AI was shaped by my time at Stanford University as a John S. Knight fellow, where I explored 
-                            how artificial intelligence is reshaping the information ecosystem. This experience 
+                            <h3>How We Got Started</h3>
+                            <p>Our work is shaped by our time at Stanford University as John S. Knight fellows, where we explored 
+                            how artificial intelligence is reshaping journalism and the information ecosystem. This research 
                             led to founding Verso to help organizations navigate the 
                             opportunities and challenges of AI.</p>
+                        </div>
+
+                        <div class="case-study-header" onclick="toggleCaseStudy(event)">
+                            <h3>Spotlight: Building AI Tools for Journalism</h3>
+                            <div class="toggle-icon">+</div>
+                        </div>
+                        
+                        <div class="case-study-content">
+                            <p>At Verso, we believe that action speaks louder than words. Our projects combine technical innovation with deep newsroom experience to tackle two key challenges: helping journalists work effectively with AI, and understanding how information spreads in today's fragmented media landscape.</p>
+
+                            <div class="case-study-details">
+                                <h3>Verso Playground</h3>
+                                <p>An experimental AI toolbox that helps journalists adapt their work for different audiences and formats. Built in collaboration with Anthropic's Claude, it's designed as a safe space for newsrooms to explore AI's potential.</p>
+                                <ul>
+                                    <li>Transform articles into podcasts, social posts, and other formats</li>
+                                    <li>Generate fresh angles and headlines while maintaining editorial control</li>
+                                    <li>Experiment with AI in a controlled, journalistically sound environment</li>
+                                </ul>
+                                <p><a href="https://verso.ink/a-playground-is-all-you-need" target="_blank" rel="noopener noreferrer" class="project-link">Read more about Playground →</a></p>
+                            </div>
+
+                            <div class="case-study-details">
+                                <h3>Roganbot</h3>
+                                <p>An AI system that helps track how ideas spread through new media channels, starting with the world's most influential podcast. It's our first step toward understanding the evolving information ecosystem.</p>
+                                <ul>
+                                    <li>Analyze long-form conversations to identify emerging narratives</li>
+                                    <li>Track how ideas move from podcasts to mainstream discourse</li>
+                                    <li>Make sprawling media conversations searchable and analyzable</li>
+                                </ul>
+                                <p><a href="https://verso.ink/keeping-up-with-joe-rogan" target="_blank" rel="noopener noreferrer" class="project-link">Read more about Roganbot →</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,12 +168,12 @@
                         </div>
 
                         <div class="case-study-header" onclick="toggleCaseStudy(event)">
-                            <h3>Case Study: Zeit im Bild</h3>
+                            <h3>Case Study: Austrian Public Broadcasting (ORF)</h3>
                             <div class="toggle-icon">+</div>
                         </div>
                         
                         <div class="case-study-content">
-                            <p>From 2013 to 2023, I led digital innovation at Austria's largest newsroom. As Head of Social Media for Zeit im Bild, 
+                            <p>From 2013 to 2023, I led digital innovation at Austria's largest newsroom. As Head of Social Media for the news brand <i>Zeit im Bild</i>,
                             I built a team that transformed how young audiences consume news in Austria, reaching 2.4 million followers in a country of 9 million people.</p>
 
                             <div class="case-study-details">
@@ -198,7 +232,7 @@
                         <div class="work-examples">
                             <h3>Speaking & Workshops</h3>
                             <ul>
-                                <li>Keynote speaker at major tech and media events across Europe and the US</li>
+                                <li>Keynote speaker at media and tech events across Europe and the US</li>
                                 <li>Lead hands-on AI workshops for newsrooms and organizations</li>
                                 <li>Regular expert commentator on AI, tech, and Silicon Valley for TV and podcasts</li>
                                 <li>Lecturer at universities and journalism schools</li>
@@ -221,7 +255,9 @@
 
     <footer>
         <p>Get in touch: <a href="mailto:patrick@verso.ink">patrick@verso.ink</a></p>
-        <p class="legal">©2024 by Patrick Swanson</p>
+        <p class="legal">
+            <span class="copyright-text">©2024</span>
+        </p>
     </footer>
 
     <script>
@@ -256,6 +292,136 @@
             header.classList.toggle('active');
             content.classList.toggle('active');
         }
+    </script>
+
+    <script type="module">
+        import PongGame from './pong.js';
+
+        let typingCompleted = false;
+        let isTyping = false;
+        let pongGame = null;
+
+        // Easter egg typewriter effect
+        const easterEggText = [
+            "// This website was built by",
+            "// - Patrick Swanson, a human",
+            "// - Anthropic Claude, an AI model",
+            "",
+            "// Now, click your mouse."
+        ];
+        
+        const legal = document.querySelector('.legal');
+        const copyrightText = document.querySelector('.copyright-text');
+        const easterEgg = document.querySelector('.easter-egg');
+        const typedText = document.querySelector('.typed-text');
+        const heroSection = document.querySelector('.hero');
+
+        // Move event listener functions outside to make them reusable
+        function handleMouseEnter() {
+            if (!pongGame && !isTyping) {
+                isTyping = true;
+                const heroContent = document.querySelector('.hero-content');
+                const easterEgg = document.querySelector('.easter-egg');
+                
+                heroContent.classList.add('hidden');
+                setTimeout(() => {
+                    easterEgg.classList.add('active');
+                    typeText();
+                }, 300);
+            }
+        }
+
+        function handleMouseLeave() {
+            if (!pongGame) {
+                const heroContent = document.querySelector('.hero-content');
+                const easterEgg = document.querySelector('.easter-egg');
+                
+                typedText.textContent = '';
+                easterEgg.classList.remove('active');
+                heroContent.classList.remove('hidden');
+                
+                // Make sure we reset all states
+                isTyping = false;
+                typingCompleted = false;
+                copyrightText.classList.remove('no-animation');
+            }
+        }
+
+        // Update initial event listeners to use named functions
+        legal.addEventListener('mouseenter', handleMouseEnter);
+        legal.addEventListener('mouseleave', handleMouseLeave);
+
+        function typeText() {
+            let lineIndex = 0;
+            let charIndex = 0;
+            let currentText = '';
+
+            function type() {
+                if (!isTyping) return;
+                
+                if (lineIndex < easterEggText.length) {
+                    if (charIndex < easterEggText[lineIndex].length) {
+                        currentText += easterEggText[lineIndex][charIndex];
+                        typedText.textContent = currentText;
+                        charIndex++;
+                        setTimeout(type, 50); // Typing speed
+                    } else {
+                        currentText += '\n';
+                        lineIndex++;
+                        charIndex = 0;
+                        if (lineIndex < easterEggText.length) {
+                            setTimeout(type, 200); // Delay between lines
+                        } else {
+                            // Typing completed
+                            typingCompleted = true;
+                            isTyping = false;
+                            updateLegalText();
+                        }
+                    }
+                }
+            }
+
+            type();
+        }
+
+        // Function to update legal text after typing
+        function updateLegalText() {
+            copyrightText.textContent = "Let's Play";
+            copyrightText.classList.add('no-animation');
+        }
+
+        // Initialize game when clicking "Let's Play"
+        legal.addEventListener('click', () => {
+            if (typingCompleted && !pongGame) {
+                const easterEgg = document.querySelector('.easter-egg');
+                const pongCanvas = document.getElementById('pongCanvas');
+                const gameControls = document.querySelector('.game-controls');
+                const heroContent = document.querySelector('.hero-content');
+                const workHighlights = document.querySelector('.work-highlights');
+                
+                easterEgg.style.opacity = '0';
+                workHighlights.classList.add('hidden');  // Hide work highlights
+                setTimeout(() => {
+                    easterEgg.style.display = 'none';
+                    pongCanvas.classList.add('active');
+                    gameControls.classList.add('active');
+                    pongGame = new PongGame(pongCanvas);
+                    pongGame.start();
+                }, 300);
+            }
+        });
+
+        // Add new game button listener
+        document.querySelector('.new-game').addEventListener('click', () => {
+            if (pongGame) {
+                pongGame.resetGame();
+            }
+        });
+
+        // Update end game button event listener
+        document.querySelector('.end-game').addEventListener('click', () => {
+            window.location.href = '/';  // This will refresh the page, just like clicking the header link
+        });
     </script>
 </body>
 </html> 
