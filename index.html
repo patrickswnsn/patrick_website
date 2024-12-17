@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patrick Swanson</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">PATRICK SWANSON</div>
+            <div class="nav-links">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <img src="icons/linkedin.svg" alt="LinkedIn" class="social-icon">
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                    <img src="icons/twitter.svg" alt="Twitter" class="social-icon">
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                    <img src="icons/instagram.svg" alt="Instagram" class="social-icon">
+                </a>
+                <a href="https://threads.net" target="_blank" rel="noopener noreferrer">
+                    <span class="threads-link">Threads</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-grid">
+                    <div class="hero-text">
+                        <h1>Hi, I'm Patrick! 👋</h1>
+                        <p class="intro">
+                            I love building things — from AI tools to social strategies and podcasts. My goal is to use 
+                            technology to support journalism and democracy.
+                        </p>
+                        <div class="verso-intro">
+                            <p>
+                                Together with <a href="https://kavehwaddell.com" target="_blank" rel="noopener noreferrer">Kaveh Waddell</a>, 
+                                I co-founded <a href="https://verso.ink" target="_blank" rel="noopener noreferrer">Verso</a>, 
+                                an AI consulting lab in San Francisco. We help newsrooms and organizations navigate the 
+                                opportunities and challenges of artificial intelligence.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="profile-image-placeholder">
+                            <img src="swanson.jpg" alt="Patrick Swanson" class="profile-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="work-highlights">
+            <div class="highlight-grid">
+                <!-- AI & Innovation -->
+                <div class="highlight-card" onclick="showContent('ai')" data-section="ai">
+                    <div class="card-preview">
+                        <h2>AI & Innovation</h2>
+                        <p>Building the future of AI in journalism at Verso</p>
+                    </div>
+                </div>
+
+                <!-- Digital Media -->
+                <div class="highlight-card" onclick="showContent('digital')" data-section="digital">
+                    <div class="card-preview">
+                        <h2>Digital & Social Media</h2>
+                        <p>Building the next generation of news experiences</p>
+                    </div>
+                </div>
+
+                <!-- Strategy -->
+                <div class="highlight-card" onclick="showContent('strategy')" data-section="strategy">
+                    <div class="card-preview">
+                        <h2>Strategy</h2>
+                        <p>Transforming newsrooms for the digital age</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expanded Content Section -->
+            <div class="expanded-content" id="expanded-content">
+                <!-- AI Content -->
+                <div class="content-section" id="ai-content">
+                    <div class="content-inner">
+                        <p>Through my work at <a href="https://verso.ink" target="_blank" rel="noopener noreferrer">Verso</a> 
+                        and as a John S. Knight fellow at Stanford, I help newsrooms understand and implement AI technology 
+                        effectively and ethically.</p>
+                        
+                        <div class="work-examples">
+                            <h3>Recent Work</h3>
+                            <ul>
+                                <li>Developing AI tools and strategies for reporters and editors</li>
+                                <li>Researching AI's impact on news business and audience behavior</li>
+                                <li>Building AI training programs for newsroom leaders</li>
+                                <li>Exploring machine learning for content moderation</li>
+                            </ul>
+                        </div>
+
+                        <div class="featured-project">
+                            <h3>Featured Project</h3>
+                            <p>At Verso, we're helping newsrooms step into the AI age through hands-on training, 
+                            strategy development, and product implementation. Our work combines deep journalistic 
+                            understanding with technical expertise.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digital Media Content -->
+                <div class="content-section" id="digital-content">
+                    <div class="content-inner">
+                        <p>I specialize in building innovative digital news experiences that engage younger audiences 
+                        while maintaining high journalistic standards.</p>
+                        
+                        <div class="work-examples">
+                            <h3>Impact</h3>
+                            <ul>
+                                <li>Built Austria's largest news presence on social media (2.4M followers)</li>
+                                <li>Pioneered news formats for TikTok, reaching 450,000+ followers</li>
+                                <li>Developed talent-driven video journalism for GenZ audiences</li>
+                                <li>Created engaging formats across Instagram, WhatsApp, and Facebook</li>
+                            </ul>
+                        </div>
+
+                        <div class="media-preview">
+                            <h3>Success Stories</h3>
+                            <div class="media-grid">
+                                <div class="media-item">
+                                    <h4>Innovation</h4>
+                                    <p>Launched new video formats reaching millions of young Austrians daily</p>
+                                    <p>Created a distinctive visual language for news on social platforms</p>
+                                </div>
+                                <div class="media-item">
+                                    <h4>Recognition</h4>
+                                    <p>Walther Rode Prize for innovative crisis coverage</p>
+                                    <p>CNN Digital Leadership Fellowship</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategy Content -->
+                <div class="content-section" id="strategy-content">
+                    <div class="content-inner">
+                        <p>I help news organizations adapt to rapid technological change while staying true to their 
+                        core mission of informing the public.</p>
+                        
+                        <div class="work-examples">
+                            <h3>Expertise</h3>
+                            <ul>
+                                <li>Digital transformation strategy for newsrooms</li>
+                                <li>Data-driven decision making in news</li>
+                                <li>Building and leading digital teams</li>
+                                <li>Product development and innovation</li>
+                            </ul>
+                        </div>
+
+                        <div class="featured-project">
+                            <h3>Leadership Experience</h3>
+                            <p>As Head of Social Media at Austria's public broadcaster, I built and led a team of 
+                            journalists and editors, developing new products and steering editorial strategy through 
+                            data analytics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Email: <a href="mailto:patrick@verso.ink">patrick@verso.ink</a></p>
+        <p class="legal">©2024 by Patrick Swanson</p>
+    </footer>
+
+    <script>
+        function showContent(section) {
+            const contentSections = document.querySelectorAll('.content-section');
+            const expandedContent = document.getElementById('expanded-content');
+            const clickedContent = document.getElementById(`${section}-content`);
+            const allCards = document.querySelectorAll('.highlight-card');
+            const clickedCard = document.querySelector(`[data-section="${section}"]`);
+            
+            if (clickedCard.classList.contains('active')) {
+                expandedContent.classList.remove('active');
+                clickedCard.classList.remove('active');
+                setTimeout(() => {
+                    contentSections.forEach(section => section.classList.remove('active'));
+                }, 300);
+                return;
+            }
+
+            allCards.forEach(card => card.classList.remove('active'));
+            contentSections.forEach(section => section.classList.remove('active'));
+            
+            clickedCard.classList.add('active');
+            clickedContent.classList.add('active');
+            expandedContent.classList.add('active');
+        }
+    </script>
+</body>
+</html> 
