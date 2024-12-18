@@ -1058,6 +1058,20 @@ footer {
         padding: 0 1rem;
         font-size: 0.9rem;
     }
+
+    nav {
+        padding: 0 1rem;  /* Slightly reduce side padding */
+        gap: 1rem;       /* Reduce gap between logo and social icons */
+    }
+
+    .nav-links {
+        gap: 1rem;      /* Reduce gap between social icons */
+    }
+
+    .social-icon {
+        width: 16px;    /* Slightly smaller icons */
+        height: 16px;
+    }
 }
 
 /* Modal styles */
