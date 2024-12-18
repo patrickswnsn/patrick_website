@@ -1,23 +1,21 @@
 /* ==========================================================================
-   Base Styles and Variables
+   Variables and Base Styles
    ========================================================================== */
-:root {
-    --bg-primary: #1E1E1E;        /* VS Code dark background */
-    --bg-secondary: #252526;      /* Slightly lighter background */
-    --bg-hover: #2D2D2D;          /* Hover state background */
-    --text-primary: #D4D4D4;      /* VS Code default text */
-    --text-secondary: #CCCCCC;    /* Slightly dimmer text */
-    --accent-blue: #4FC1FF;       /* VS Code variable blue */
-    --accent-orange: #D7BA7D;     /* VS Code keyword orange */
-    --border-color: #404040;      /* Subtle borders */
+   :root {
+    --bg-primary: #1E1E1E;       /* VS Code dark background */
+    --bg-secondary: #252526;     /* Slightly lighter background */
+    --bg-hover: #2D2D2D;         /* Hover state background */
+    --text-primary: #D4D4D4;     /* VS Code default text */
+    --text-secondary: #CCCCCC;   /* Slightly dimmer text */
+    --accent-blue: #4FC1FF;      /* VS Code variable blue */
+    --accent-orange: #D7BA7D;    /* VS Code keyword orange */
+    --border-color: #404040;     /* Subtle borders */
     --scrollbar-thumb: #424242;
     --scrollbar-track: #1E1E1E;
     --content-width: 1000px;
-    --text-width: 720px;
-    --spacing-unit: 1.5rem;
     --card-radius: 6px;
-    --transition-speed: 0.3s;
     --side-padding: 2rem;
+    --base-transition: 0.3s;
 }
 
 * {
@@ -28,7 +26,6 @@
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -54,40 +51,16 @@ body {
 }
 
 /* ==========================================================================
-   Animations and Transitions
+   Animations
    ========================================================================== */
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.transition-opacity {
-    transition: opacity var(--transition-speed) ease;
-}
-
-.transition-all {
-    transition: all var(--transition-speed) ease;
-}
-
-.transition-transform {
-    transition: transform var(--transition-speed) ease;
-}
-
-.transition-colors {
-    transition: color var(--transition-speed) ease, 
-                border-color var(--transition-speed) ease,
-                background-color var(--transition-speed) ease;
-}
-
 /* ==========================================================================
-   Layout Components
+   Header and Navigation
    ========================================================================== */
-/* Header and Navigation */
 header {
     padding: 1.25rem 0;
     border-bottom: 1px solid var(--border-color);
@@ -108,7 +81,6 @@ nav {
     padding: 0 var(--side-padding);
 }
 
-/* Logo */
 .logo {
     font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
     font-weight: 500;
@@ -119,19 +91,17 @@ nav {
     min-width: 18ch;
 }
 
+/* No transition on .logo-trigger-wrapper or .logo-text to avoid flicker */
 .logo-trigger-wrapper {
     display: flex;
     align-items: center;
     cursor: pointer;
-    transition: transform 0.2s ease;
-    min-width: inherit;
 }
 
 .logo-text {
     text-decoration: none;
     color: var(--accent-orange);
-    transition: color var(--transition-speed) ease;
-    min-width: inherit;
+    /* No transition here to avoid text flicker */
 }
 
 .logo-text:hover {
@@ -143,11 +113,7 @@ nav {
     color: var(--accent-blue);
 }
 
-.logo-trigger-wrapper.game-mode:hover {
-    transform: scale(1.05);
-}
-
-/* Navigation Links */
+/* Social icons */
 .nav-links {
     display: flex;
     gap: 1.5rem;
@@ -159,9 +125,9 @@ nav {
     text-decoration: none;
     display: flex;
     align-items: center;
-    transition: all 0.2s ease;
     font-size: 0.9rem;
     opacity: 0.8;
+    transition: color var(--base-transition) ease, opacity var(--base-transition) ease;
 }
 
 .nav-links a:hover {
@@ -173,8 +139,8 @@ nav {
     width: 18px;
     height: 18px;
     opacity: 0.7;
-    transition: opacity 0.2s ease;
     filter: invert(1);
+    transition: opacity var(--base-transition) ease;
 }
 
 .nav-links a:hover .social-icon {
@@ -194,7 +160,6 @@ nav {
 .hero-content {
     margin: 0 auto;
     position: relative;
-    height: 100%;
 }
 
 .hero-content.hidden {
@@ -243,10 +208,8 @@ nav {
     font-size: 1.1rem;
     line-height: 1.5;
     color: var(--text-secondary);
-    font-weight: 400;
     margin-bottom: 1.5rem;
     letter-spacing: -0.01em;
-    position: relative;
 }
 
 .verso-intro {
@@ -261,7 +224,7 @@ nav {
     text-decoration: none;
     font-weight: 500;
     position: relative;
-    transition: all var(--transition-speed);
+    transition: all var(--base-transition) ease;
 }
 
 .verso-intro a:after {
@@ -274,7 +237,7 @@ nav {
     background: var(--accent-orange);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform var(--transition-speed);
+    transition: transform var(--base-transition) ease;
 }
 
 .verso-intro a:hover:after {
@@ -290,7 +253,6 @@ nav {
 
 .profile-image-placeholder {
     width: 100%;
-    max-width: 100%;
     aspect-ratio: 1;
     border-radius: var(--card-radius);
     overflow: hidden;
@@ -305,8 +267,8 @@ nav {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: all var(--transition-speed);
     filter: saturate(0.95) brightness(0.98);
+    transition: transform var(--base-transition) ease, filter var(--base-transition) ease;
 }
 
 .profile-image-placeholder:hover .profile-image {
@@ -315,17 +277,14 @@ nav {
 }
 
 /* ==========================================================================
-   Work Section Components
+   Work Highlights Section
    ========================================================================== */
-/* Work Highlights */
 .work-highlights {
     max-width: var(--content-width);
     margin: 0 auto;
     padding: 0 var(--side-padding) 1.5rem;
     position: relative;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    /* Removed transitions to prevent flicker when returning to default state */
 }
 
 .work-highlights.hidden {
@@ -346,9 +305,9 @@ nav {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid var(--border-color);
     position: relative;
+    transition: box-shadow var(--base-transition) ease, transform var(--base-transition) ease;
 }
 
 .highlight-card::before {
@@ -360,7 +319,7 @@ nav {
     height: 100%;
     background: var(--accent-blue);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--base-transition) ease;
 }
 
 .highlight-card:hover::before {
@@ -382,12 +341,11 @@ nav {
     font-size: 0.9rem;
     margin-bottom: 0.75rem;
     font-weight: 500;
-    position: relative;
-    display: block;
     color: var(--accent-orange);
     font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
     opacity: 0.9;
     letter-spacing: 0.02em;
+    transition: color var(--base-transition) ease;
 }
 
 .card-preview p {
@@ -395,24 +353,18 @@ nav {
     line-height: 1.4;
     color: var(--text-secondary);
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Update the hover state to affect the header */
-.highlight-card:hover .card-preview h2 {
-    color: var(--accent-blue);
-}
-
+.highlight-card:hover .card-preview h2,
 .highlight-card.active .card-preview h2 {
     color: var(--accent-blue);
 }
 
-/* Expanded Content */
+/* Expanded content - no transition on max-height or opacity to avoid flicker */
 .expanded-content {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--bg-secondary);
     border-radius: var(--card-radius);
     margin-top: 0.75rem;
@@ -450,11 +402,6 @@ nav {
     font-weight: 500;
     color: var(--accent-blue);
     letter-spacing: -0.01em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.content-section h3::before {
-    display: none;
 }
 
 .content-section p {
@@ -463,10 +410,6 @@ nav {
     color: var(--text-secondary);
     margin-bottom: 1rem;
     letter-spacing: -0.01em;
-}
-
-.content-section h3:first-child {
-    margin-top: 0;
 }
 
 .content-section ul {
@@ -496,16 +439,15 @@ nav {
 .content-section li strong {
     color: var(--accent-orange);
     font-weight: 500;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .content-section a {
     color: var(--accent-blue);
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition: all 0.2s ease;
     padding-bottom: 1px;
     font-size: 0.9rem;
+    transition: border-color var(--base-transition) ease, color var(--base-transition) ease;
 }
 
 .content-section a:hover {
@@ -521,9 +463,9 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.2s ease;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.75rem;
+    transition: border-color var(--base-transition) ease;
 }
 
 .case-study-header:hover {
@@ -534,7 +476,7 @@ nav {
     margin: 0;
     font-size: 1.1rem;
     color: var(--accent-orange);
-    transition: color 0.2s ease;
+    transition: color var(--base-transition) ease;
 }
 
 .case-study-header:hover h3 {
@@ -545,7 +487,7 @@ nav {
     font-size: 1.1rem;
     color: var(--text-secondary);
     font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
-    transition: transform 0.3s ease;
+    transition: transform var(--base-transition) ease, opacity var(--base-transition) ease;
     opacity: 0.7;
 }
 
@@ -556,7 +498,6 @@ nav {
 .case-study-content {
     display: none;
     padding-top: 1.5rem;
-    animation: fadeIn 0.3s ease;
 }
 
 .case-study-content.active {
@@ -582,14 +523,13 @@ nav {
     line-height: 1.6;
 }
 
-/* Update case study details to be more subtle */
 .case-study-details {
     margin: 1.5rem 0;
     padding: 1.25rem 1.5rem;
     background: var(--bg-primary);
     border-radius: var(--card-radius);
     border: 1px solid var(--border-color);
-    transition: border-color 0.2s ease;
+    transition: border-color var(--base-transition) ease;
 }
 
 .case-study-details:hover {
@@ -619,7 +559,6 @@ nav {
     margin-bottom: 1.5rem;
     color: var(--text-primary);
     font-weight: 500;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .media-grid {
@@ -634,8 +573,8 @@ nav {
     border-radius: var(--card-radius);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border-color);
-    transition: all var(--transition-speed);
     text-align: center;
+    transition: transform var(--base-transition) ease, box-shadow var(--base-transition) ease, border-color var(--base-transition) ease;
 }
 
 .media-item:hover {
@@ -669,7 +608,39 @@ nav {
     margin: 0;
 }
 
-/* Speaking Grid */
+/* Platform Links */
+.platform-link {
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+    transition: color var(--base-transition) ease;
+}
+
+.platform-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent-blue);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--base-transition) ease;
+}
+
+.platform-link:hover {
+    color: var(--accent-blue);
+}
+
+.platform-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* ==========================================================================
+   Speaking Grid
+   ========================================================================== */
 .speaking-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -682,7 +653,7 @@ nav {
     cursor: pointer;
     overflow: hidden;
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    transition: transform var(--base-transition) ease;
 }
 
 .speaking-image:hover {
@@ -693,10 +664,10 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform var(--base-transition) ease;
 }
 
-/* Common Image Overlays */
+/* Image Overlays */
 .profile-image-placeholder::before,
 .speaking-image::before {
     position: absolute;
@@ -710,10 +681,9 @@ nav {
     padding: 0.2rem 0.4rem;
     border-radius: 3px;
     backdrop-filter: blur(4px);
-    transition: opacity 0.3s ease;
+    transition: opacity var(--base-transition) ease;
 }
 
-/* Profile image overlay */
 .profile-image-placeholder::before {
     content: "// JSK Fellowships, Stanford";
     opacity: 0;
@@ -723,7 +693,6 @@ nav {
     opacity: 0.7;
 }
 
-/* Speaking image overlays */
 .speaking-image::before {
     content: "// speaking.jpg";
     opacity: 0;
@@ -741,62 +710,24 @@ nav {
     opacity: 0.7;
 }
 
-/* Platform Links */
-.platform-link {
-    color: inherit;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.2s ease;
-}
-
-.platform-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--accent-blue);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease;
-}
-
-.platform-link:hover {
-    color: var(--accent-blue);
-}
-
-.platform-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-.media-item:hover .platform-link {
-    color: var(--accent-blue);
-}
-
-.media-item:hover .platform-link::after {
-    transform: scaleX(1);
-}
-
 .speaking-image:nth-child(2) .talk-image {
     object-position: center 30%;
 }
 
-/* Easter Egg */
+/* ==========================================================================
+   Easter Egg and Pong Game
+   ========================================================================== */
 .easter-egg {
     position: absolute;
     top: 6rem;
     left: var(--side-padding);
-    transform: none;
     font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
     color: var(--text-secondary);
     line-height: 1.6;
     text-align: left;
-    padding: 0;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease;
+    /* No transitions to prevent flicker */
     width: 100%;
     max-width: 600px;
     margin-left: 1rem;
@@ -805,11 +736,6 @@ nav {
 .easter-egg.active {
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s ease, visibility 0s;
-}
-
-.easter-egg:not(.active) {
-    transition: opacity 0s, visibility 0s;
 }
 
 .typed-text {
@@ -825,7 +751,6 @@ nav {
     margin-left: 2px;
 }
 
-/* Pong Game */
 .pong-game {
     position: fixed;
     top: calc(33vh);
@@ -838,15 +763,13 @@ nav {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     opacity: 0;
     visibility: hidden;
-    z-index: 1000;
-    touch-action: none; /* Prevent default touch behaviors */
+    touch-action: none;
 }
 
 .pong-game.active {
     display: block;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s ease;
 }
 
 /* ==========================================================================
@@ -883,16 +806,11 @@ footer {
     color: var(--accent-blue);
     text-decoration: none;
     border-bottom: 1px solid var(--border-color);
-    transition: all var(--transition-speed);
     padding-bottom: 2px;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-.separator {
-    color: var(--text-secondary);
-    opacity: 0.5;
+    transition: border-color var(--base-transition) ease, color var(--base-transition) ease;
 }
 
 .contact-link:hover {
@@ -900,30 +818,79 @@ footer {
     color: var(--accent-orange);
 }
 
-.copyright-text {
+.separator {
     color: var(--text-secondary);
-    opacity: 0.7;
-}
-
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .contact-actions {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .separator {
-        display: none;
-    }
+    opacity: 0.5;
 }
 
 /* ==========================================================================
-   Media Queries
+   Image Modal
+   ========================================================================== */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.95);
+    transition: transform var(--base-transition) ease, opacity var(--base-transition) ease, visibility var(--base-transition) ease;
+}
+
+.image-modal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: 2rem;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-caption {
+    color: white;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
+
+.modal-close {
+    position: absolute;
+    top: -2rem;
+    right: -2rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: transform var(--base-transition) ease;
+}
+
+.modal-close:hover {
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   Responsive Adjustments
    ========================================================================== */
 @media (max-width: 1024px) {
     .hero-grid {
@@ -994,7 +961,7 @@ footer {
     .media-item {
         padding: 1.5rem;
     }
-    
+
     .media-item .metric {
         font-size: 1.75rem;
     }
@@ -1008,14 +975,10 @@ footer {
     .case-study-header {
         margin-top: 2rem;
     }
-    
+
     .case-study-details {
         padding: 1.25rem;
         margin: 1rem 0;
-    }
-
-    .speaking-image::before {
-        opacity: 0.7;
     }
 
     .highlight-grid {
@@ -1053,11 +1016,11 @@ footer {
     }
 
     .pong-game {
-        top: 50vh;  /* Center vertically on mobile */
-        max-width: 90vw;  /* Prevent overflow */
-        height: auto;  /* Allow height to adjust based on width */
+        top: 50vh;
+        max-width: 90vw;
+        height: auto;
     }
-    
+
     .easter-egg {
         top: 4rem;
         margin-left: 0;
@@ -1066,90 +1029,40 @@ footer {
     }
 
     nav {
-        padding: 0 var(--side-padding);  /* Keep consistent padding */
-        gap: 1.25rem;                    /* Space between logo and social icons group */
+        padding: 0 var(--side-padding);
+        gap: 1.25rem;
     }
 
     .nav-links {
-        gap: 0.85rem;                    /* Tighter spacing between social icons */
+        gap: 0.85rem;
     }
 
     .social-icon {
         width: 17px;
         height: 17px;
     }
-}
 
-/* Modal styles */
-.image-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0.95);
-}
-
-.image-modal.active {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-}
-
-.modal-content {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
-    margin: 2rem;
-}
-
-.modal-content img {
-    max-width: 100%;
-    max-height: 80vh;
-    object-fit: contain;
-    border-radius: 4px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.modal-caption {
-    color: white;
-    text-align: center;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-}
-
-.modal-close {
-    position: absolute;
-    top: -2rem;
-    right: -2rem;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    line-height: 1;
-}
-
-.modal-close:hover {
-    transform: scale(1.1);
-}
-
-@media (max-width: 768px) {
     .modal-content {
         margin: 1rem;
     }
-    
+
     .modal-close {
         top: -1.5rem;
         right: -0.5rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .contact-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .separator {
+        display: none;
     }
 }
