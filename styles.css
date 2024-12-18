@@ -546,19 +546,24 @@ nav {
 
 /* Media Preview */
 .media-preview {
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
     border-radius: var(--card-radius);
-    padding: 2rem;
-    margin-top: 2.5rem;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
     border: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color var(--base-transition) ease;
+}
+
+.media-preview:hover {
+    border-color: var(--accent-blue);
 }
 
 .media-preview h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    font-weight: 500;
+    font-size: 0.95rem;
+    margin: 0 0 1.25rem 0;
+    color: var(--accent-orange);
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    letter-spacing: 0.02em;
 }
 
 .media-grid {
@@ -947,7 +952,17 @@ footer {
     }
 
     .content-section {
-        padding: 2rem var(--side-padding);
+        padding: 1.25rem;
+    }
+
+    .content-inner {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .case-study-details,
+    .media-preview {
+        padding: 1.25rem;
     }
 
     .expanded-content.active {
@@ -1012,7 +1027,7 @@ footer {
     }
 
     .content-section {
-        padding: 1.25rem var(--side-padding);
+        padding: 1.25rem;
     }
 
     .pong-game {
