@@ -229,7 +229,7 @@ nav {
     content: "";
     position: absolute;
     left: 0;
-    top: 0em;
+    top: 0;
     width: 0.2em;
     height: 1em;
     background-color: var(--accent-blue);
@@ -950,13 +950,16 @@ footer {
     }
 
     .hero-text h1 {
-        display: inline-block;
+        display: inline-flex;
         position: relative;
         padding-left: 0;
+        margin-left: 0.6ch;
+        justify-content: center;
     }
 
     .hero-text h1::before {
-        left: -0.8em;
+        left: -0.6ch;
+        top: 0;
     }
 
     .hero-image {
@@ -1060,17 +1063,17 @@ footer {
     }
 
     nav {
-        padding: 0 1rem;  /* Slightly reduce side padding */
-        gap: 1rem;       /* Reduce gap between logo and social icons */
+        padding: 0 var(--side-padding);  /* Keep consistent padding */
+        gap: 1.25rem;                    /* Space between logo and social icons group */
     }
 
     .nav-links {
-        gap: 1rem;      /* Reduce gap between social icons */
+        gap: 0.85rem;                    /* Tighter spacing between social icons */
     }
 
     .social-icon {
-        width: 16px;    /* Slightly smaller icons */
-        height: 16px;
+        width: 17px;
+        height: 17px;
     }
 }
 
