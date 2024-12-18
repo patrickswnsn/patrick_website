@@ -949,6 +949,16 @@ footer {
         padding-top: 1rem;
     }
 
+    .hero-text h1 {
+        display: inline-block;
+        position: relative;
+        padding-left: 0;
+    }
+
+    .hero-text h1::before {
+        left: -0.8em;
+    }
+
     .hero-image {
         justify-content: center;
         padding: 0 3rem;
