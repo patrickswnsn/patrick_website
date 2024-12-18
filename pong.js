@@ -4,8 +4,7 @@ class PongGame {
         this.ctx = canvas.getContext('2d');
         
         // Basic settings
-        this.canvas.width = 600;
-        this.canvas.height = 400;
+        this.setCanvasSize();
         this.winningScore = 5;
 
         // Game state
@@ -17,43 +16,99 @@ class PongGame {
         this.pongStarted = false; 
         this.lastTime = 0;
         this.deltaTime = 0;
+        this.isMobile = window.innerWidth <= 768;
 
         // Player paddle
         this.paddle = {
-            width: 12,
-            height: 80,
-            y: (this.canvas.height / 2) - 40,
+            width: this.isMobile ? 8 : 12,
+            height: this.isMobile ? 60 : 80,
+            y: (this.canvas.height / 2) - (this.isMobile ? 30 : 40),
         };
 
         // Computer paddle
         this.computerPaddle = {
-            width: 12,
-            height: 80,
-            y: (this.canvas.height / 2) - 40,
-            targetY: (this.canvas.height / 2) - 40,
-            speed: 300  // pixels per second max speed
+            width: this.isMobile ? 8 : 12,
+            height: this.isMobile ? 60 : 80,
+            y: (this.canvas.height / 2) - (this.isMobile ? 30 : 40),
+            targetY: (this.canvas.height / 2) - (this.isMobile ? 30 : 40),
+            speed: this.isMobile ? 250 : 300  // Slightly slower on mobile
         };
 
         // Ball
         this.ball = {
             x: this.canvas.width / 2,
             y: this.canvas.height / 2,
-            radius: 6,
+            radius: this.isMobile ? 4 : 6,
             speedX: 0,
             speedY: 0,
-            maxSpeed: 700,
-            baseSpeed: 400,
+            maxSpeed: this.isMobile ? 500 : 700,
+            baseSpeed: this.isMobile ? 300 : 400,
             acceleration: 1.05
         };
 
         // Event binding
         this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.handleResize = this.handleResize.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
 
-        // Listen to mouse
-        this.canvas.addEventListener('mousemove', this.handleMouseMove);
+        // Add event listeners
+        if (this.isMobile) {
+            this.canvas.addEventListener('touchmove', this.handleTouchMove, { passive: true });
+            this.canvas.addEventListener('touchstart', this.handleTouchMove, { passive: true });
+        } else {
+            this.canvas.addEventListener('mousemove', this.handleMouseMove);
+        }
+        window.addEventListener('resize', this.handleResize);
+    }
 
-        // Start countdown once start() is called
+    setCanvasSize() {
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            // On mobile, make the canvas fill most of the screen width
+            this.canvas.width = Math.min(window.innerWidth * 0.9, 400);
+            // Maintain aspect ratio
+            this.canvas.height = this.canvas.width * 0.8;
+        } else {
+            // Desktop dimensions remain unchanged
+            this.canvas.width = 600;
+            this.canvas.height = 400;
+        }
+    }
+
+    handleResize() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth <= 768;
+        
+        // Only update if mobile state changed
+        if (wasMobile !== this.isMobile) {
+            this.setCanvasSize();
+            // Update paddle and ball sizes
+            this.paddle.width = this.isMobile ? 8 : 12;
+            this.paddle.height = this.isMobile ? 60 : 80;
+            this.computerPaddle.width = this.isMobile ? 8 : 12;
+            this.computerPaddle.height = this.isMobile ? 60 : 80;
+            this.ball.radius = this.isMobile ? 4 : 6;
+            
+            // Update event listeners
+            if (this.isMobile) {
+                this.canvas.removeEventListener('mousemove', this.handleMouseMove);
+                this.canvas.addEventListener('touchmove', this.handleTouchMove, { passive: true });
+                this.canvas.addEventListener('touchstart', this.handleTouchMove, { passive: true });
+            } else {
+                this.canvas.removeEventListener('touchmove', this.handleTouchMove);
+                this.canvas.removeEventListener('touchstart', this.handleTouchMove);
+                this.canvas.addEventListener('mousemove', this.handleMouseMove);
+            }
+        }
+    }
+
+    handleTouchMove(e) {
+        e.preventDefault();
+        const rect = this.canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        const touchY = touch.clientY - rect.top;
+        this.paddle.y = Math.min(Math.max(touchY - this.paddle.height / 2, 0), this.canvas.height - this.paddle.height);
     }
 
     handleMouseMove(e) {
@@ -203,14 +258,15 @@ class PongGame {
     }
 
     drawScore() {
-        this.ctx.font = '16px monospace';
+        const fontSize = this.isMobile ? '14px' : '16px';
+        this.ctx.font = `${fontSize} monospace`;
         this.ctx.textAlign = 'left';
         this.ctx.fillStyle = '#4FC1FF';
-        this.ctx.fillText(`YOU: ${this.playerScore}`, 40, 30);
+        this.ctx.fillText(`YOU: ${this.playerScore}`, this.isMobile ? 20 : 40, this.isMobile ? 20 : 30);
 
         this.ctx.textAlign = 'right';
         this.ctx.fillStyle = '#D7BA7D';
-        this.ctx.fillText(`AI: ${this.computerScore}`, this.canvas.width - 40, 30);
+        this.ctx.fillText(`AI: ${this.computerScore}`, this.canvas.width - (this.isMobile ? 20 : 40), this.isMobile ? 20 : 30);
 
         // Center line when game is on
         if (this.gameStarted && !this.gameOver) {
@@ -219,7 +275,7 @@ class PongGame {
             this.ctx.moveTo(this.canvas.width / 2, 0);
             this.ctx.lineTo(this.canvas.width / 2, this.canvas.height);
             this.ctx.strokeStyle = 'rgba(64, 64, 64, 0.5)';
-            this.ctx.lineWidth = 2;
+            this.ctx.lineWidth = this.isMobile ? 1 : 2;
             this.ctx.stroke();
             this.ctx.setLineDash([]);
         }
@@ -227,7 +283,7 @@ class PongGame {
         // Countdown before start
         if (!this.gameStarted && !this.gameOver) {
             this.ctx.textAlign = 'center';
-            this.ctx.font = '72px monospace';
+            this.ctx.font = `${this.isMobile ? '48px' : '72px'} monospace`;
             this.ctx.fillStyle = '#4FC1FF';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(this.countdown, this.canvas.width / 2, this.canvas.height / 2);
@@ -237,7 +293,7 @@ class PongGame {
         // Display game over message
         if (this.gameOver) {
             this.ctx.textAlign = 'center';
-            this.ctx.font = '24px monospace';
+            this.ctx.font = `${this.isMobile ? '20px' : '24px'} monospace`;
             this.ctx.fillStyle = (this.playerScore >= this.winningScore) ? '#4FC1FF' : '#D7BA7D';
             const winner = (this.playerScore >= this.winningScore) ? 'YOU WIN!' : 'AI WINS!';
             this.ctx.fillText(winner, this.canvas.width / 2, this.canvas.height / 2);
@@ -274,8 +330,8 @@ class PongGame {
         this.computerScore = 0;
         this.gameOver = false;
         this.gameStarted = false;
-        this.paddle.y = (this.canvas.height / 2) - 40;
-        this.computerPaddle.y = (this.canvas.height / 2) - 40;
+        this.paddle.y = (this.canvas.height / 2) - (this.isMobile ? 30 : 40);
+        this.computerPaddle.y = (this.canvas.height / 2) - (this.isMobile ? 30 : 40);
         this.computerPaddle.targetY = this.computerPaddle.y;
         this.resetBall(1);
         this.startCountdown();
@@ -298,6 +354,13 @@ class PongGame {
 
     stop() {
         this.pongStarted = false;
+        window.removeEventListener('resize', this.handleResize);
+        if (this.isMobile) {
+            this.canvas.removeEventListener('touchmove', this.handleTouchMove);
+            this.canvas.removeEventListener('touchstart', this.handleTouchMove);
+        } else {
+            this.canvas.removeEventListener('mousemove', this.handleMouseMove);
+        }
     }
 }
 

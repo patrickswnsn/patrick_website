@@ -848,6 +848,7 @@ nav {
     opacity: 0;
     visibility: hidden;
     z-index: 1000;
+    touch-action: none; /* Prevent default touch behaviors */
 }
 
 .pong-game.active {
@@ -1008,5 +1009,18 @@ footer a:hover {
 
     .content-section {
         padding: 1.25rem var(--side-padding);
+    }
+
+    .pong-game {
+        top: 50vh;  /* Center vertically on mobile */
+        max-width: 90vw;  /* Prevent overflow */
+        height: auto;  /* Allow height to adjust based on width */
+    }
+    
+    .easter-egg {
+        top: 4rem;
+        margin-left: 0;
+        padding: 0 1rem;
+        font-size: 0.9rem;
     }
 }
