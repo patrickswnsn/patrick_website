@@ -72,7 +72,7 @@
                 <div class="highlight-card" onclick="showContent('ai')" data-section="ai">
                     <div class="card-preview">
                         <h2>// Artificial Intelligence</h2>
-                        <p>Designing AI tools, strategies and training programs</p>
+                        <p>Designing AI tools, implementation strategies and training programs</p>
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@
                 <div class="highlight-card" onclick="showContent('digital')" data-section="digital">
                     <div class="card-preview">
                         <h2>// Digital & Social Media</h2>
-                        <p>Building next-gen newsrooms, teams and media products</p>
+                        <p>Building next-generation newsrooms, teams and media products</p>
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@
                 <div class="highlight-card" onclick="showContent('leadership')" data-section="leadership">
                     <div class="card-preview">
                         <h2>// Speaking & Teaching</h2>
-                        <p>Sharing insights on tech, AI and media innovation</p>
+                        <p>Delivering keynotes and workshops on tech and the future of media</p>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                 <!-- AI Content -->
                 <div class="content-section" id="ai-content">
                     <div class="content-inner">
-                        <p>At Verso, we help newsrooms and organizations understand and implement AI effectively. 
+                        <p>At Verso, we help newsrooms and organizations understand and implement AI effectively and strategically. 
                         Our approach combines journalistic experience with technical expertise.</p>
                         
                         <div class="work-examples">
@@ -125,7 +125,7 @@
                         </div>
                         
                         <div class="case-study-content">
-                            <p>At Verso, we believe that action speaks louder than words. Our projects combine technical innovation with deep newsroom experience to tackle two key challenges: helping journalists work effectively with AI, and understanding how information spreads in today's fragmented media landscape.</p>
+                            <p>We believe that action speaks louder than words. Our projects combine technical innovation with deep newsroom experience to tackle two key challenges: helping journalists work effectively with AI, and understanding how information spreads in today's fragmented media landscape.</p>
 
                             <div class="case-study-details">
                                 <h3>Verso Playground</h3>
@@ -181,8 +181,9 @@
 
                             <div class="case-study-details">
                                 <h3>The Challenge</h3>
-                                <p>In 2013, Zeit im Bild needed to reach younger audiences and adapt to rapidly changing media consumption habits. 
-                                I was tasked with building a social media presence from scratch, developing new formats, and establishing a team that could innovate while maintaining the highest journalistic standards.</p>
+                                <p>In 2013, Austria's leading news program faced a critical challenge: while very popular on TV, 
+                                we were becoming invisible to viewers under 35. My mission was to transform <i>Zeit im Bild</i> for the social media age 
+                                — without compromising the rigorous journalism that made us the country's most trusted news source.</p>
                             </div>
 
                             <div class="case-study-details">
@@ -228,9 +229,9 @@
                 <!-- Leadership Content -->
                 <div class="content-section" id="leadership-content">
                     <div class="content-inner">
-                        <p>I help organizations and individuals understand and embrace AI's potential through 
-                        keynotes, hands-on workshops, and media appearances. My approach combines 
-                        frontier research and insights from Silicon Valley with a focus on empowering people to do seemingly impossible things.</p>
+                        <p>I help organizations and individuals understand the possibilities and risks of frontier technology through 
+                        keynotes, hands-on workshops, and media appearances. In my talks and teaching, I combine 
+                        research and insights from Silicon Valley with a focus on empowering people to do seemingly impossible things.</p>
                         
                         <div class="work-examples">
                             <h3>Speaking & Workshops</h3>
@@ -243,11 +244,11 @@
                         </div>
 
                         <div class="speaking-grid">
-                            <div class="speaking-image">
-                                <img src="images/keynote_wko.jpeg" alt="Patrick giving a keynote at the WKO Communications Festival" class="talk-image">
+                            <div class="speaking-image" onclick="openImageModal(this)">
+                                <img src="images/keynote_wko.jpeg" alt="Keynote at the WKO Communications Festival in Vienna" class="talk-image">
                             </div>
-                            <div class="speaking-image">
-                                <img src="images/keynote_lux.jpeg" alt="Patrick speaking at the Medareform conference in Luxembourg" class="talk-image">
+                            <div class="speaking-image" onclick="openImageModal(this)">
+                                <img src="images/panel_lux.jpg" alt="Panel discussion at the Mediareform conference in Luxembourg" class="talk-image">
                             </div>
                         </div>
                     </div>
@@ -257,11 +258,24 @@
     </main>
 
     <footer>
-        <p>Get in touch: <a href="mailto:patrick@verso.ink">patrick@verso.ink</a></p>
-        <p class="legal">
+        <div class="footer-content">
+            <div class="contact-actions">
+                <span class="contact-label">Get in touch:</span>
+                <a href="mailto:patrick@verso.ink" class="contact-link">✉️ Send an email</a>
+                <span class="separator">·</span>
+                <a href="https://calendly.com/patrick-verso" target="_blank" rel="noopener noreferrer" class="contact-link">📅 Schedule a call</a>
+            </div>
             <span class="copyright-text">©2024</span>
-        </p>
+        </div>
     </footer>
+
+    <div class="image-modal" id="imageModal" onclick="closeImageModal()">
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+            <div class="modal-caption"></div>
+            <button class="modal-close" onclick="closeImageModal()">&times;</button>
+        </div>
+    </div>
 
     <script type="module">
         import PongGame from './pong.js';
@@ -443,9 +457,41 @@
                 content.classList.toggle('active');
             }
 
+            function openImageModal(element) {
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImage');
+                const modalCaption = document.querySelector('.modal-caption');
+                const img = element.querySelector('img');
+
+                // Get the click position for animation origin
+                const rect = img.getBoundingClientRect();
+                const clickX = rect.left + (rect.width / 2);
+                const clickY = rect.top + (rect.height / 2);
+                
+                // Set transform origin
+                modal.style.transformOrigin = `${clickX}px ${clickY}px`;
+                
+                // Set image and caption using alt text
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                modalCaption.textContent = img.alt;
+                
+                // Show modal with animation
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeImageModal() {
+                const modal = document.getElementById('imageModal');
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
             // Make functions available globally
             window.showContent = showContent;
             window.toggleCaseStudy = toggleCaseStudy;
+            window.openImageModal = openImageModal;
+            window.closeImageModal = closeImageModal;
         });
     </script>
 </body>
