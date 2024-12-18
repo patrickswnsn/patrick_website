@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patrick Swanson</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
 </head>
 <body>
     <header>
         <nav>
             <div class="logo">
-                <a href="/" class="logo-link">PATRICK SWANSON</a>
+                <div class="logo-trigger-wrapper" id="logo-trigger">
+                    <a href="/" class="logo-text">&gt; PATRICK SWANSON</a>
+                </div>
             </div>
             <div class="nav-links">
                 <a href="https://github.com/patrickswnsn" target="_blank" rel="noopener noreferrer">
@@ -33,19 +36,18 @@
 
     <main>
         <section class="hero">
-            <span class="line-number">1</span>
             <div class="hero-content">
                 <div class="hero-grid">
                     <div class="hero-text">
                         <h1>Hi, I'm Patrick! 👋</h1>
                         <p class="intro">
-                            I'm a journalist and technologist who loves to build things — from AI tools for newsrooms to TikTok accounts that reach millions.
+                            I'm a journalist who loves to build things — from AI tools for newsrooms to TikTok accounts that reach millions.
                         </p>
                         <div class="verso-intro">
                             <p>
                                 Together with <a href="https://kavehwaddell.com" target="_blank" rel="noopener noreferrer">Kaveh Waddell</a>, 
-                                I co-founded <a href="https://verso.ink" target="_blank" rel="noopener noreferrer">Verso</a>, 
-                                a consulting lab based in San Francisco. We work with newsrooms, non-profits and startups around the globe to help them step into the AI age.
+                                I founded the consulting lab <a href="https://verso.ink" target="_blank" rel="noopener noreferrer">Verso.</a> 
+                                We help newsrooms, non-profits and startups step into the AI age.
                             </p>
                         </div>
                     </div>
@@ -60,10 +62,6 @@
                 <span class="typed-text"></span>
             </div>
             <canvas id="pongCanvas" class="pong-game"></canvas>
-            <div class="game-controls">
-                <button class="game-button new-game">New Game</button>
-                <button class="game-button end-game">End Game</button>
-            </div>
         </section>
 
         <section class="work-highlights">
@@ -267,27 +265,138 @@
         import PongGame from './pong.js';
 
         document.addEventListener('DOMContentLoaded', () => {
-            let typingCompleted = false;
-            let isTyping = false;
+            // Game state management
+            const GameState = {
+                DEFAULT: 'default',
+                TYPING: 'typing',
+                READY: 'ready',
+                PLAYING: 'playing'
+            };
+            
+            let currentState = GameState.DEFAULT;
             let pongGame = null;
 
             const easterEggText = [
                 "// This website was built by",
                 "// - Patrick Swanson, a human",
-                "// - Anthropic Claude, an AI model",
+                "// - Anthropic Claude, an AI",
                 "",
-                "// Now, click your mouse."
+                "// Now, let's play."
             ];
             
             // Cache DOM elements
-            const lineNumber = document.querySelector('.line-number');
+            const logoTrigger = document.getElementById('logo-trigger');
+            const logoText = document.querySelector('.logo-text');
             const easterEgg = document.querySelector('.easter-egg');
             const typedText = document.querySelector('.typed-text');
-            const heroSection = document.querySelector('.hero');
             const heroContent = document.querySelector('.hero-content');
             const pongCanvas = document.getElementById('pongCanvas');
-            const gameControls = document.querySelector('.game-controls');
             const workHighlights = document.querySelector('.work-highlights');
+
+            function updateState(newState) {
+                currentState = newState;
+                
+                switch(newState) {
+                    case GameState.DEFAULT:
+                        logoText.textContent = "> PATRICK SWANSON";
+                        logoText.setAttribute('href', '/');
+                        heroContent.classList.remove('hidden');
+                        workHighlights.classList.remove('hidden');
+                        easterEgg.classList.remove('active');
+                        logoTrigger.classList.remove('game-mode');
+                        break;
+                        
+                    case GameState.TYPING:
+                        logoText.removeAttribute('href');
+                        heroContent.classList.add('hidden');
+                        workHighlights.classList.add('hidden');
+                        easterEgg.classList.add('active');
+                        typeText();
+                        break;
+                        
+                    case GameState.READY:
+                        logoText.textContent = "> START GAME";
+                        logoTrigger.classList.add('game-mode');
+                        break;
+                        
+                    case GameState.PLAYING:
+                        logoText.textContent = "> END GAME";
+                        easterEgg.style.opacity = '0';
+                        // Remove hover events once game starts
+                        logoTrigger.removeEventListener('mouseenter', handleLogoHover);
+                        logoTrigger.removeEventListener('mouseleave', handleLogoHover);
+                        setTimeout(() => {
+                            easterEgg.style.display = 'none';
+                            pongCanvas.classList.add('active');
+                            pongGame = new PongGame(pongCanvas);
+                            pongGame.start();
+                        }, 300);
+                        break;
+                }
+            }
+
+            function handleLogoHover(event) {
+                if (event.type === 'mouseenter' && currentState === GameState.DEFAULT) {
+                    updateState(GameState.TYPING);
+                } else if (event.type === 'mouseleave' && currentState !== GameState.PLAYING) {
+                    updateState(GameState.DEFAULT);
+                }
+            }
+
+            function handleLogoClick() {
+                if (currentState === GameState.READY) {
+                    updateState(GameState.PLAYING);
+                } else if (currentState === GameState.PLAYING) {
+                    endGame();
+                }
+            }
+
+            function typeText() {
+                let lineIndex = 0;
+                let charIndex = 0;
+                let currentText = '';
+
+                function type() {
+                    if (currentState === GameState.DEFAULT) return; // Stop if mouse left
+                    
+                    if (lineIndex < easterEggText.length) {
+                        if (charIndex < easterEggText[lineIndex].length) {
+                            currentText += easterEggText[lineIndex][charIndex];
+                            typedText.textContent = currentText;
+                            charIndex++;
+                            setTimeout(type, 30);
+                        } else {
+                            currentText += '\n';
+                            lineIndex++;
+                            charIndex = 0;
+                            if (lineIndex < easterEggText.length) {
+                                setTimeout(type, 150);
+                            } else {
+                                updateState(GameState.READY);
+                            }
+                        }
+                    }
+                }
+
+                type();
+            }
+
+            function endGame() {
+                pongGame = null;
+                pongCanvas.classList.remove('active');
+                easterEgg.style.display = '';
+                easterEgg.style.opacity = '';
+                typedText.textContent = '';
+                // Re-enable hover events when game ends
+                logoTrigger.addEventListener('mouseenter', handleLogoHover);
+                logoTrigger.addEventListener('mouseleave', handleLogoHover);
+                updateState(GameState.DEFAULT);
+            }
+
+            // Event Listeners
+            logoTrigger.addEventListener('mouseenter', handleLogoHover);
+            logoTrigger.addEventListener('mouseleave', handleLogoHover);
+            logoTrigger.addEventListener('click', handleLogoClick);
 
             function showContent(section) {
                 const contentSections = document.querySelectorAll('.content-section');
@@ -301,6 +410,8 @@
                     clickedCard.classList.remove('active');
                     setTimeout(() => {
                         contentSections.forEach(section => section.classList.remove('active'));
+                        // Reset position
+                        document.querySelector('.highlight-grid').appendChild(expandedContent);
                     }, 300);
                     return;
                 }
@@ -311,6 +422,15 @@
                 clickedCard.classList.add('active');
                 clickedContent.classList.add('active');
                 expandedContent.classList.add('active');
+
+                // Insert expanded content after clicked card on mobile
+                if (window.innerWidth <= 768) {
+                    clickedCard.insertAdjacentElement('afterend', expandedContent);
+                    // Smooth scroll to the expanded content
+                    setTimeout(() => {
+                        expandedContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                }
             }
 
             function toggleCaseStudy(event) {
@@ -321,99 +441,7 @@
                 content.classList.toggle('active');
             }
 
-            function updateLineNumber() {
-                lineNumber.textContent = "Go";
-                lineNumber.classList.add('ready-to-play');
-                lineNumber.addEventListener('click', startGame);
-            }
-
-            function startGame() {
-                if (typingCompleted && !pongGame) {
-                    easterEgg.style.opacity = '0';
-                    workHighlights.classList.add('hidden');
-                    setTimeout(() => {
-                        easterEgg.style.display = 'none';
-                        pongCanvas.classList.add('active');
-                        gameControls.classList.add('active');
-                        pongGame = new PongGame(pongCanvas);
-                        pongGame.start();
-                        lineNumber.style.display = 'none';
-                    }, 300);
-                }
-            }
-
-            function handleMouseEnter() {
-                if (!pongGame && !isTyping) {
-                    isTyping = true;
-                    heroContent.classList.add('hidden');
-                    setTimeout(() => {
-                        easterEgg.classList.add('active');
-                        typeText();
-                    }, 300);
-                }
-            }
-
-            function handleMouseLeave() {
-                if (!pongGame) {
-                    typedText.textContent = '';
-                    easterEgg.classList.remove('active');
-                    heroContent.classList.remove('hidden');
-                    
-                    isTyping = false;
-                    typingCompleted = false;
-                    lineNumber.textContent = "1";
-                    lineNumber.classList.remove('ready-to-play');
-                }
-            }
-
-            function typeText() {
-                let lineIndex = 0;
-                let charIndex = 0;
-                let currentText = '';
-
-                function type() {
-                    if (!isTyping) return;
-                    
-                    if (lineIndex < easterEggText.length) {
-                        if (charIndex < easterEggText[lineIndex].length) {
-                            currentText += easterEggText[lineIndex][charIndex];
-                            typedText.textContent = currentText;
-                            charIndex++;
-                            setTimeout(type, 50);
-                        } else {
-                            currentText += '\n';
-                            lineIndex++;
-                            charIndex = 0;
-                            if (lineIndex < easterEggText.length) {
-                                setTimeout(type, 200);
-                            } else {
-                                typingCompleted = true;
-                                isTyping = false;
-                                updateLineNumber();
-                            }
-                        }
-                    }
-                }
-
-                type();
-            }
-
-            // Add event listeners
-            lineNumber.addEventListener('mouseenter', handleMouseEnter);
-            lineNumber.addEventListener('mouseleave', handleMouseLeave);
-
-            // Add game control listeners
-            document.querySelector('.new-game').addEventListener('click', () => {
-                if (pongGame) {
-                    pongGame.resetGame();
-                }
-            });
-
-            document.querySelector('.end-game').addEventListener('click', () => {
-                window.location.href = '/';
-            });
-
-            // Make functions available globally for onclick handlers
+            // Make functions available globally
             window.showContent = showContent;
             window.toggleCaseStudy = toggleCaseStudy;
         });
