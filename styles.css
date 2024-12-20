@@ -908,9 +908,9 @@ footer {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 650px) {
     .hero {
-        padding: 1.5rem var(--side-padding) 2rem;
+        padding: 2.5rem var(--side-padding) 2rem;
     }
 
     .hero-grid {
@@ -927,7 +927,6 @@ footer {
     }
 
     .hero-text h1 {
-        font-size: 2rem;
         display: inline-flex;
         position: relative;
         padding-left: 0;
@@ -942,7 +941,7 @@ footer {
 
     .intro,
     .verso-intro {
-        font-size: 1rem;
+        font-size: 1.07rem;
         line-height: 1.45;
     }
 
@@ -1012,11 +1011,11 @@ footer {
     }
 
     .card-preview h2 {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
     }
 
     .card-preview p {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         margin-bottom: 0.25rem;
     }
 
@@ -1088,5 +1087,13 @@ footer {
 
     .separator {
         display: none;
+    }
+
+    .work-highlights {
+        padding-bottom: 0rem;
+    }
+
+    .highlight-grid {
+        margin-bottom: 0rem;
     }
 }
