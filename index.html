@@ -468,11 +468,9 @@
                 if (clickedCard.classList.contains('active')) {
                     expandedContent.classList.remove('active');
                     clickedCard.classList.remove('active');
-                    setTimeout(() => {
-                        contentSections.forEach(section => section.classList.remove('active'));
-                        // Reset position
-                        document.querySelector('.highlight-grid').appendChild(expandedContent);
-                    }, 300);
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    // Reset position immediately
+                    document.querySelector('.highlight-grid').appendChild(expandedContent);
                     return;
                 }
 
@@ -487,9 +485,9 @@
                 if (window.innerWidth <= 768) {
                     clickedCard.insertAdjacentElement('afterend', expandedContent);
                     // Smooth scroll to the expanded content
-                    setTimeout(() => {
+                    requestAnimationFrame(() => {
                         expandedContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 100);
+                    });
                 }
             }
 

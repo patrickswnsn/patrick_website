@@ -372,10 +372,11 @@ nav {
     border: 1px solid var(--border-color);
     transform: translateY(-10px);
     grid-column: 1 / -1;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .expanded-content.active {
-    max-height: 2000px;
+    max-height: none;
     opacity: 1;
     margin: 1rem 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
