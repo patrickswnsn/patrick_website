@@ -153,7 +153,7 @@ nav {
 .hero {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 3rem var(--side-padding) 3rem;
+    padding: 0.5rem var(--side-padding) 2rem;
     position: relative;
 }
 
@@ -910,12 +910,12 @@ footer {
 
 @media (max-width: 768px) {
     .hero {
-        padding: 2rem var(--side-padding) 3rem;
+        padding: 1.5rem var(--side-padding) 2rem;
     }
 
     .hero-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
         min-height: auto;
     }
 
@@ -923,7 +923,7 @@ footer {
         grid-column: 1;
         text-align: center;
         padding-right: 0;
-        padding-top: 1rem;
+        grid-row: 1;
     }
 
     .hero-text h1 {
@@ -939,12 +939,19 @@ footer {
         top: 0;
     }
 
+    .intro,
+    .verso-intro {
+        font-size: 1rem;
+    }
+
     .hero-image {
-        grid-row: 1;
+        grid-row: 2;
+        padding: 0 2rem;
     }
 
     .profile-image-placeholder {
-        max-width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
     }
 
     .highlight-grid {
