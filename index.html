@@ -12,6 +12,10 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://patrickswanson.net/" />
+
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://verso.ink">
+    <link rel="preconnect" href="https://calendar.app.google">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="// Patrick Swanson">
@@ -57,9 +61,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1E1E1E">
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
     <header>
         <nav>
             <div class="logo">
@@ -84,7 +89,7 @@
         </nav>
     </header>
 
-    <main>
+    <main id="main">
         <section class="hero">
             <div class="hero-content">
                 <div class="hero-grid">
@@ -117,28 +122,28 @@
         <section class="work-highlights">
             <div class="highlight-grid">
                 <!-- AI & Innovation -->
-                <div class="highlight-card" onclick="showContent('ai')" data-section="ai">
+                <button class="highlight-card" data-section="ai" aria-expanded="false" aria-controls="ai-content">
                     <div class="card-preview">
                         <h2>// Artificial Intelligence</h2>
                         <p>Designing AI tools, implementation strategies and training programs</p>
                     </div>
-                </div>
+                </button>
 
                 <!-- Digital Media -->
-                <div class="highlight-card" onclick="showContent('digital')" data-section="digital">
+                <button class="highlight-card" data-section="digital" aria-expanded="false" aria-controls="digital-content">
                     <div class="card-preview">
                         <h2>// Digital & Social Media</h2>
                         <p>Building next-generation newsrooms, teams and media products</p>
                     </div>
-                </div>
+                </button>
 
                 <!-- Leadership -->
-                <div class="highlight-card" onclick="showContent('leadership')" data-section="leadership">
+                <button class="highlight-card" data-section="leadership" aria-expanded="false" aria-controls="leadership-content">
                     <div class="card-preview">
                         <h2>// Speaking & Teaching</h2>
                         <p>Delivering keynotes and workshops on tech and the future of media</p>
                     </div>
-                </div>
+                </button>
             </div>
 
             <!-- Expanded Content Section -->
@@ -166,12 +171,12 @@
                             led to the founding of Verso.</p>
                         </div>
 
-                        <div class="case-study-header" onclick="toggleCaseStudy(event)">
+                        <button class="case-study-header" aria-expanded="false" aria-controls="ai-case-study">
                             <h3>Spotlight: AI Tools for Journalism</h3>
-                            <div class="toggle-icon">+</div>
-                        </div>
+                            <span class="toggle-icon" aria-hidden="true">+</span>
+                        </button>
                         
-                        <div class="case-study-content">
+                        <div class="case-study-content" id="ai-case-study">
                             <p>We believe that action speaks louder than words. Our most recent projects combine technical innovation with deep newsroom experience to tackle two key challenges: helping journalists work effectively with AI, and understanding how information spreads in today's fragmented media landscape.</p>
 
                             <div class="case-study-details">
@@ -217,12 +222,12 @@
                             </ul>
                         </div>
 
-                        <div class="case-study-header" onclick="toggleCaseStudy(event)">
+                        <button class="case-study-header" aria-expanded="false" aria-controls="orf-case-study">
                             <h3>Case Study: Austrian Public Broadcasting (ORF)</h3>
-                            <div class="toggle-icon">+</div>
-                        </div>
+                            <span class="toggle-icon" aria-hidden="true">+</span>
+                        </button>
                         
-                        <div class="case-study-content">
+                        <div class="case-study-content" id="orf-case-study">
                             <p>From 2013 to 2023, I worked on digital innovation at Austria's largest newsroom. As Head of Social Media for the news brand <i>Zeit im Bild</i>,
                             I built a team that transformed how young audiences consume news in Austria, reaching 2.4 million followers in a country of 9 million people.</p>
 
@@ -291,12 +296,12 @@
                         </div>
 
                         <div class="speaking-grid">
-                            <div class="speaking-image" onclick="openImageModal(this)">
-                                <img src="images/keynote_wko.jpeg" alt="Keynote at the WKO Communications Festival in Vienna" class="talk-image">
-                            </div>
-                            <div class="speaking-image" onclick="openImageModal(this)">
-                                <img src="images/panel_lux.jpg" alt="Panel discussion at the Mediareform conference in Luxembourg" class="talk-image">
-                            </div>
+                            <button class="speaking-image" type="button" aria-label="View keynote photo from WKO Communications Festival in Vienna">
+                                <img src="images/keynote_wko.jpeg" alt="Keynote at the WKO Communications Festival in Vienna" class="talk-image" loading="lazy">
+                            </button>
+                            <button class="speaking-image" type="button" aria-label="View panel discussion photo from Mediareform conference in Luxembourg">
+                                <img src="images/panel_lux.jpg" alt="Panel discussion at the Mediareform conference in Luxembourg" class="talk-image" loading="lazy">
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -312,15 +317,15 @@
                 <span class="separator">·</span>
                 <a href="https://calendar.app.google/UagdbKmv6fa5ZrhJ8" target="_blank" rel="noopener noreferrer" class="contact-link">📅 Schedule a call</a>
             </div>
-            <span class="copyright-text">©2024</span>
+            <span class="copyright-text">©2025</span>
         </div>
     </footer>
 
-    <div class="image-modal" id="imageModal" onclick="closeImageModal()">
+    <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-labelledby="modal-caption">
         <div class="modal-content">
             <img id="modalImage" src="" alt="">
-            <div class="modal-caption"></div>
-            <button class="modal-close" onclick="closeImageModal()">&times;</button>
+            <div class="modal-caption" id="modal-caption"></div>
+            <button class="modal-close" aria-label="Close image">&times;</button>
         </div>
     </div>
 
@@ -467,20 +472,28 @@
                 const clickedContent = document.getElementById(`${section}-content`);
                 const allCards = document.querySelectorAll('.highlight-card');
                 const clickedCard = document.querySelector(`[data-section="${section}"]`);
-                
-                if (clickedCard.classList.contains('active')) {
+
+                const isExpanded = clickedCard.classList.contains('active');
+
+                if (isExpanded) {
                     expandedContent.classList.remove('active');
                     clickedCard.classList.remove('active');
+                    clickedCard.setAttribute('aria-expanded', 'false');
                     contentSections.forEach(section => section.classList.remove('active'));
                     // Reset position immediately
                     document.querySelector('.highlight-grid').appendChild(expandedContent);
                     return;
                 }
 
-                allCards.forEach(card => card.classList.remove('active'));
+                // Update all cards' aria-expanded to false
+                allCards.forEach(card => {
+                    card.classList.remove('active');
+                    card.setAttribute('aria-expanded', 'false');
+                });
                 contentSections.forEach(section => section.classList.remove('active'));
-                
+
                 clickedCard.classList.add('active');
+                clickedCard.setAttribute('aria-expanded', 'true');
                 clickedContent.classList.add('active');
                 expandedContent.classList.add('active');
 
@@ -494,12 +507,13 @@
                 }
             }
 
-            function toggleCaseStudy(event) {
-                const header = event.currentTarget;
+            function toggleCaseStudy(header) {
                 const content = header.nextElementSibling;
-                
+                const isExpanded = header.classList.contains('active');
+
                 header.classList.toggle('active');
                 content.classList.toggle('active');
+                header.setAttribute('aria-expanded', !isExpanded);
             }
 
             function openImageModal(element) {
@@ -512,31 +526,78 @@
                 const rect = img.getBoundingClientRect();
                 const clickX = rect.left + (rect.width / 2);
                 const clickY = rect.top + (rect.height / 2);
-                
+
                 // Set transform origin
                 modal.style.transformOrigin = `${clickX}px ${clickY}px`;
-                
+
                 // Set image and caption using alt text
                 modalImg.src = img.src;
                 modalImg.alt = img.alt;
                 modalCaption.textContent = img.alt;
-                
+
                 // Show modal with animation
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
+
+                // Store the element that opened the modal for focus return
+                modal.dataset.opener = '';
+                lastFocusedElement = element;
+
+                // Focus the close button
+                modal.querySelector('.modal-close').focus();
             }
+
+            let lastFocusedElement = null;
 
             function closeImageModal() {
                 const modal = document.getElementById('imageModal');
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
+
+                // Return focus to the element that opened the modal
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                    lastFocusedElement = null;
+                }
             }
 
-            // Make functions available globally
-            window.showContent = showContent;
-            window.toggleCaseStudy = toggleCaseStudy;
-            window.openImageModal = openImageModal;
-            window.closeImageModal = closeImageModal;
+            // Set up event listeners for highlight cards
+            document.querySelectorAll('.highlight-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    showContent(card.dataset.section);
+                });
+            });
+
+            // Set up event listeners for case study headers
+            document.querySelectorAll('.case-study-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    toggleCaseStudy(header);
+                });
+            });
+
+            // Set up event listeners for speaking images
+            document.querySelectorAll('.speaking-image').forEach(image => {
+                image.addEventListener('click', () => {
+                    openImageModal(image);
+                });
+            });
+
+            // Set up modal event listeners
+            const imageModal = document.getElementById('imageModal');
+
+            // Close modal when clicking outside the image
+            imageModal.addEventListener('click', (e) => {
+                if (e.target === imageModal || e.target.classList.contains('modal-close')) {
+                    closeImageModal();
+                }
+            });
+
+            // Close modal on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && imageModal.classList.contains('active')) {
+                    closeImageModal();
+                }
+            });
         });
     </script>
 </body>

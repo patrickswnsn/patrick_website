@@ -51,6 +51,40 @@ body {
 }
 
 /* ==========================================================================
+   Accessibility
+   ========================================================================== */
+/* Skip link - visible only on focus */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--accent-blue);
+    color: var(--bg-primary);
+    padding: 0.5rem 1rem;
+    z-index: 1000;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 0 0 var(--card-radius) 0;
+    transition: top var(--base-transition) ease;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Focus states for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+/* Remove default focus outline where custom styles exist */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ==========================================================================
    Animations
    ========================================================================== */
 @keyframes blink {
@@ -309,6 +343,12 @@ nav {
     border: 1px solid var(--border-color);
     position: relative;
     transition: box-shadow var(--base-transition) ease, transform var(--base-transition) ease;
+    /* Button reset for accessibility */
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    width: 100%;
+    padding: 0;
 }
 
 .highlight-card::before {
@@ -466,8 +506,17 @@ nav {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border-color);
+    border-top: none;
+    border-left: none;
+    border-right: none;
     padding-bottom: 0.75rem;
     transition: border-color var(--base-transition) ease;
+    /* Button reset for accessibility */
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    width: 100%;
 }
 
 .case-study-header:hover {
@@ -661,6 +710,12 @@ nav {
     overflow: hidden;
     border-radius: 8px;
     transition: transform var(--base-transition) ease;
+    /* Button reset for accessibility */
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
+    display: block;
 }
 
 .speaking-image:hover {
@@ -958,6 +1013,9 @@ footer {
 
     .highlight-grid {
         grid-template-columns: 1fr;
+        gap: 0.5rem;
+        position: relative;
+        margin-bottom: 0rem;
     }
 
     .content-section {
@@ -974,8 +1032,19 @@ footer {
         padding: 1.25rem;
     }
 
-    .expanded-content.active {
+    .case-study-details {
         margin: 1rem 0;
+    }
+
+    .expanded-content {
+        position: relative;
+        margin: 0.5rem 0;
+        grid-row: auto;
+    }
+
+    .expanded-content.active {
+        margin: 0.5rem 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .media-grid {
@@ -1000,17 +1069,6 @@ footer {
         margin-top: 2rem;
     }
 
-    .case-study-details {
-        padding: 1.25rem;
-        margin: 1rem 0;
-    }
-
-    .highlight-grid {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-        position: relative;
-    }
-
     .card-preview h2 {
         font-size: 0.9rem;
     }
@@ -1022,21 +1080,6 @@ footer {
 
     .highlight-card {
         margin-bottom: 0.25rem;
-    }
-
-    .expanded-content {
-        position: relative;
-        margin: 0.5rem 0;
-        grid-row: auto;
-    }
-
-    .expanded-content.active {
-        margin: 0.5rem 0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .content-section {
-        padding: 1.25rem;
     }
 
     .pong-game {
@@ -1093,8 +1136,18 @@ footer {
     .work-highlights {
         padding-bottom: 0rem;
     }
+}
 
-    .highlight-grid {
-        margin-bottom: 0rem;
+/* ==========================================================================
+   Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
