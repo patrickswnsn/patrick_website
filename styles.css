@@ -848,7 +848,7 @@ nav {
 }
 
 .speaking-image:nth-child(2)::before {
-    content: "// WKO";
+    content: "// Media Forward Fund";
 }
 
 .speaking-image:nth-child(3)::before {
@@ -856,7 +856,7 @@ nav {
 }
 
 .speaking-image:nth-child(4)::before {
-    content: "// Media Forward Fund";
+    content: "// WKO";
 }
 
 .speaking-image:hover::before {
