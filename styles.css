@@ -2,20 +2,29 @@
    Variables and Base Styles
    ========================================================================== */
    :root {
-    --bg-primary: #1E1E1E;       /* VS Code dark background */
-    --bg-secondary: #252526;     /* Slightly lighter background */
-    --bg-hover: #2D2D2D;         /* Hover state background */
-    --text-primary: #D4D4D4;     /* VS Code default text */
-    --text-secondary: #CCCCCC;   /* Slightly dimmer text */
-    --accent-blue: #4FC1FF;      /* VS Code variable blue */
-    --accent-orange: #D7BA7D;    /* VS Code keyword orange */
-    --border-color: #404040;     /* Subtle borders */
-    --scrollbar-thumb: #424242;
-    --scrollbar-track: #1E1E1E;
-    --content-width: 1000px;
-    --card-radius: 6px;
+    /* Color palette - GitHub-dark inspired with warmer accents */
+    --bg-primary: #0D1117;       /* Deep background */
+    --bg-secondary: #161B22;     /* Card backgrounds */
+    --bg-tertiary: #21262D;      /* Hover states */
+    --text-primary: #E6EDF3;     /* Slightly warm white */
+    --text-secondary: #8B949E;   /* Muted text */
+    --accent-cyan: #58A6FF;      /* Primary accent (links, highlights) */
+    --accent-orange: #D7BA7D;    /* Secondary accent (golden yellow) */
+    --accent-green: #3FB950;     /* Success/highlight states */
+    --border-color: #30363D;     /* Softer borders */
+    --scrollbar-thumb: #30363D;
+    --scrollbar-track: #0D1117;
+
+    /* Layout */
+    --content-width: 1100px;
+    --card-radius: 8px;
     --side-padding: 2rem;
-    --base-transition: 0.3s;
+    --base-transition: 0.25s;
+
+    /* Dot grid pattern */
+    --dot-color: rgba(88, 166, 255, 0.07);
+    --dot-size: 1px;
+    --dot-spacing: 24px;
 }
 
 * {
@@ -41,13 +50,24 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg-primary);
     font-weight: 400;
+    /* Dot grid pattern */
+    background-image:
+        radial-gradient(circle at center, var(--dot-color) var(--dot-size), transparent var(--dot-size)),
+        radial-gradient(ellipse at 50% 0%, rgba(88, 166, 255, 0.03) 0%, transparent 60%);
+    background-size:
+        var(--dot-spacing) var(--dot-spacing),
+        100% 100%;
+    background-position:
+        0 0,
+        0 0;
+    background-attachment: fixed;
 }
 
 /* ==========================================================================
@@ -58,7 +78,7 @@ body {
     position: absolute;
     top: -40px;
     left: 0;
-    background: var(--accent-blue);
+    background: var(--accent-cyan);
     color: var(--bg-primary);
     padding: 0.5rem 1rem;
     z-index: 1000;
@@ -74,7 +94,7 @@ body {
 
 /* Focus states for keyboard navigation */
 :focus-visible {
-    outline: 2px solid var(--accent-blue);
+    outline: 2px solid var(--accent-cyan);
     outline-offset: 2px;
 }
 
@@ -92,6 +112,28 @@ button:focus:not(:focus-visible) {
     50% { opacity: 0; }
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==========================================================================
    Header and Navigation
    ========================================================================== */
@@ -100,7 +142,9 @@ header {
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
-    background: var(--bg-secondary);
+    background: rgba(22, 27, 34, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     z-index: 100;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
@@ -116,7 +160,7 @@ nav {
 }
 
 .logo {
-    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
     font-weight: 500;
     font-size: 0.9rem;
     letter-spacing: 0.02em;
@@ -139,12 +183,12 @@ nav {
 }
 
 .logo-text:hover {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
 }
 
 /* Game mode styles */
 .logo-trigger-wrapper.game-mode .logo-text {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
 }
 
 /* Social icons */
@@ -165,7 +209,7 @@ nav {
 }
 
 .nav-links a:hover {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
     opacity: 1;
 }
 
@@ -187,13 +231,14 @@ nav {
 .hero {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 0.25rem var(--side-padding) 1rem;
+    padding: 1rem var(--side-padding) 2rem;
     position: relative;
 }
 
 .hero-content {
     margin: 0 auto;
     position: relative;
+    animation: fadeIn 0.6s ease-out forwards;
 }
 
 .hero-content.hidden {
@@ -216,13 +261,13 @@ nav {
 }
 
 .hero-text h1 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     margin-bottom: 1.5rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1;
-    color: var(--accent-blue);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--accent-cyan);
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     position: relative;
     padding-left: 0.6ch;
 }
@@ -234,7 +279,7 @@ nav {
     top: 0;
     width: 0.2em;
     height: 1em;
-    background-color: var(--accent-blue);
+    background-color: var(--accent-cyan);
     animation: blink 1s step-end infinite;
 }
 
@@ -295,6 +340,13 @@ nav {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
+    transition: box-shadow var(--base-transition) ease, border-color var(--base-transition) ease, transform var(--base-transition) ease;
+}
+
+.profile-image-placeholder:hover {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-cyan);
+    transform: translateY(-4px);
 }
 
 .profile-image {
@@ -330,25 +382,40 @@ nav {
 .highlight-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+    gap: 1rem;
     margin-bottom: 1.5rem;
 }
 
 .highlight-card {
     background: var(--bg-secondary);
     border-radius: var(--card-radius);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     cursor: pointer;
     border: 1px solid var(--border-color);
     position: relative;
-    transition: box-shadow var(--base-transition) ease, transform var(--base-transition) ease;
+    transition: box-shadow var(--base-transition) ease, transform var(--base-transition) ease, border-color var(--base-transition) ease;
     /* Button reset for accessibility */
     font: inherit;
     color: inherit;
     text-align: left;
     width: 100%;
     padding: 0;
+    /* Page load animation */
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.highlight-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.highlight-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.highlight-card:nth-child(3) {
+    animation-delay: 0.3s;
 }
 
 .highlight-card::before {
@@ -356,15 +423,25 @@ nav {
     position: absolute;
     left: 0;
     top: 0;
-    width: 2px;
+    width: 3px;
     height: 100%;
-    background: var(--accent-blue);
+    background: var(--accent-cyan);
     opacity: 0;
     transition: opacity var(--base-transition) ease;
 }
 
+.highlight-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    border-color: var(--accent-cyan);
+}
+
 .highlight-card:hover::before {
     opacity: 1;
+}
+
+.highlight-card.active {
+    border-color: var(--accent-orange);
 }
 
 .highlight-card.active::before {
@@ -383,7 +460,7 @@ nav {
     margin-bottom: 0.75rem;
     font-weight: 500;
     color: var(--accent-orange);
-    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
     opacity: 0.9;
     letter-spacing: 0.02em;
     transition: color var(--base-transition) ease;
@@ -398,7 +475,7 @@ nav {
 
 .highlight-card:hover .card-preview h2,
 .highlight-card.active .card-preview h2 {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
 }
 
 /* Expanded content - no transition on max-height or opacity to avoid flicker */
@@ -442,7 +519,7 @@ nav {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
     letter-spacing: -0.01em;
 }
 
@@ -473,7 +550,7 @@ nav {
     content: "→";
     position: absolute;
     left: 0;
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
     opacity: 0.7;
     font-size: 0.9rem;
 }
@@ -484,7 +561,7 @@ nav {
 }
 
 .content-section a {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     padding-bottom: 1px;
@@ -493,7 +570,7 @@ nav {
 }
 
 .content-section a:hover {
-    border-color: var(--accent-blue);
+    border-color: var(--accent-cyan);
     color: var(--accent-orange);
 }
 
@@ -531,13 +608,13 @@ nav {
 }
 
 .case-study-header:hover h3 {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
 }
 
 .toggle-icon {
     font-size: 1.1rem;
     color: var(--text-secondary);
-    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
     transition: transform var(--base-transition) ease, opacity var(--base-transition) ease;
     opacity: 0.7;
 }
@@ -556,7 +633,7 @@ nav {
 }
 
 .case-study-header.active {
-    border-color: var(--accent-blue);
+    border-color: var(--accent-cyan);
 }
 
 .case-study-header.active .toggle-icon {
@@ -565,7 +642,7 @@ nav {
 }
 
 .case-study-header.active h3 {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
 }
 
 .case-study-content > p {
@@ -584,7 +661,7 @@ nav {
 }
 
 .case-study-details:hover {
-    border-color: var(--accent-blue);
+    border-color: var(--accent-cyan);
 }
 
 .case-study-details h3 {
@@ -592,7 +669,7 @@ nav {
     color: var(--accent-orange);
     font-size: 0.95rem;
     letter-spacing: 0.02em;
-    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
 }
 
 /* Media Preview */
@@ -606,14 +683,14 @@ nav {
 }
 
 .media-preview:hover {
-    border-color: var(--accent-blue);
+    border-color: var(--accent-cyan);
 }
 
 .media-preview h3 {
     font-size: 0.95rem;
     margin: 0 0 1.25rem 0;
     color: var(--accent-orange);
-    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
     letter-spacing: 0.02em;
 }
 
@@ -636,7 +713,7 @@ nav {
 .media-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    border-color: var(--accent-blue);
+    border-color: var(--accent-cyan);
 }
 
 .media-item h4 {
@@ -679,14 +756,14 @@ nav {
     left: 0;
     width: 100%;
     height: 1px;
-    background: var(--accent-blue);
+    background: var(--accent-cyan);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform var(--base-transition) ease;
 }
 
 .platform-link:hover {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
 }
 
 .platform-link:hover::after {
@@ -699,8 +776,8 @@ nav {
    ========================================================================== */
 .speaking-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
     margin: 2rem 0;
 }
 
@@ -709,17 +786,19 @@ nav {
     cursor: pointer;
     overflow: hidden;
     border-radius: 8px;
-    transition: transform var(--base-transition) ease;
+    transition: transform var(--base-transition) ease, box-shadow var(--base-transition) ease;
     /* Button reset for accessibility */
     background: transparent;
     border: none;
     padding: 0;
     font: inherit;
     display: block;
+    aspect-ratio: 4 / 3;
 }
 
 .speaking-image:hover {
     transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .talk-image {
@@ -736,10 +815,10 @@ nav {
     bottom: 0.75rem;
     left: 0.75rem;
     color: var(--text-secondary);
-    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
     font-size: 0.7rem;
     z-index: 2;
-    background: rgba(30, 30, 30, 0.8);
+    background: rgba(13, 17, 23, 0.85);
     padding: 0.2rem 0.4rem;
     border-radius: 3px;
     backdrop-filter: blur(4px);
@@ -756,23 +835,32 @@ nav {
 }
 
 .speaking-image::before {
-    content: "// speaking.jpg";
+    content: "";
     opacity: 0;
 }
 
 .speaking-image:nth-child(1)::before {
-    content: "// WKO";
+    content: "// NOW Business Days";
 }
 
 .speaking-image:nth-child(2)::before {
+    content: "// WKO";
+}
+
+.speaking-image:nth-child(3)::before {
     content: "// Mediareform Luxembourg";
+}
+
+.speaking-image:nth-child(4)::before {
+    content: "// Media Forward Fund";
 }
 
 .speaking-image:hover::before {
     opacity: 0.7;
 }
 
-.speaking-image:nth-child(2) .talk-image {
+/* Adjust image positioning for better framing */
+.speaking-image:nth-child(3) .talk-image {
     object-position: center 30%;
 }
 
@@ -783,7 +871,7 @@ nav {
     position: absolute;
     top: 6rem;
     left: var(--side-padding);
-    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
     color: var(--text-secondary);
     line-height: 1.6;
     text-align: left;
@@ -808,24 +896,25 @@ nav {
 .typed-text::after {
     content: '|';
     display: inline-block;
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
     animation: blink 1s step-end infinite;
     margin-left: 2px;
 }
 
 .pong-game {
     position: fixed;
-    top: calc(33vh);
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--card-radius);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
     opacity: 0;
     visibility: hidden;
     touch-action: none;
+    z-index: 50;
 }
 
 .pong-game.active {
@@ -844,6 +933,11 @@ footer {
     color: var(--text-secondary);
     font-size: 0.9rem;
     border-top: 1px solid var(--border-color);
+}
+
+footer.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .footer-content {
@@ -865,7 +959,7 @@ footer {
 }
 
 .contact-link {
-    color: var(--accent-blue);
+    color: var(--accent-cyan);
     text-decoration: none;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 2px;
@@ -876,7 +970,7 @@ footer {
 }
 
 .contact-link:hover {
-    border-color: var(--accent-blue);
+    border-color: var(--accent-cyan);
     color: var(--accent-orange);
 }
 

@@ -237,11 +237,11 @@ class PongGame {
 
     drawPaddles() {
         if (!this.gameOver) {
-            // Player paddle (left)
-            this.ctx.fillStyle = '#4FC1FF';
+            // Player paddle (left) - accent cyan
+            this.ctx.fillStyle = '#58A6FF';
             this.ctx.fillRect(40, this.paddle.y, this.paddle.width, this.paddle.height);
 
-            // Computer paddle (right)
+            // Computer paddle (right) - accent orange/gold
             this.ctx.fillStyle = '#D7BA7D';
             this.ctx.fillRect(this.canvas.width - 50, this.computerPaddle.y, this.computerPaddle.width, this.computerPaddle.height);
         }
@@ -249,7 +249,7 @@ class PongGame {
 
     drawBall() {
         if (this.gameStarted && !this.gameOver) {
-            this.ctx.fillStyle = (this.ball.speedX > 0) ? '#4FC1FF' : '#D7BA7D';
+            this.ctx.fillStyle = (this.ball.speedX > 0) ? '#58A6FF' : '#D7BA7D';
             this.ctx.beginPath();
             this.ctx.arc(this.ball.x, this.ball.y, this.ball.radius, 0, Math.PI * 2);
             this.ctx.fill();
@@ -259,9 +259,9 @@ class PongGame {
 
     drawScore() {
         const fontSize = this.isMobile ? '14px' : '16px';
-        this.ctx.font = `${fontSize} monospace`;
+        this.ctx.font = `${fontSize} 'JetBrains Mono', monospace`;
         this.ctx.textAlign = 'left';
-        this.ctx.fillStyle = '#4FC1FF';
+        this.ctx.fillStyle = '#58A6FF';
         this.ctx.fillText(`YOU: ${this.playerScore}`, this.isMobile ? 20 : 40, this.isMobile ? 20 : 30);
 
         this.ctx.textAlign = 'right';
@@ -274,7 +274,7 @@ class PongGame {
             this.ctx.beginPath();
             this.ctx.moveTo(this.canvas.width / 2, 0);
             this.ctx.lineTo(this.canvas.width / 2, this.canvas.height);
-            this.ctx.strokeStyle = 'rgba(64, 64, 64, 0.5)';
+            this.ctx.strokeStyle = 'rgba(48, 54, 61, 0.6)';
             this.ctx.lineWidth = this.isMobile ? 1 : 2;
             this.ctx.stroke();
             this.ctx.setLineDash([]);
@@ -283,8 +283,8 @@ class PongGame {
         // Countdown before start
         if (!this.gameStarted && !this.gameOver) {
             this.ctx.textAlign = 'center';
-            this.ctx.font = `${this.isMobile ? '48px' : '72px'} monospace`;
-            this.ctx.fillStyle = '#4FC1FF';
+            this.ctx.font = `${this.isMobile ? '48px' : '72px'} 'JetBrains Mono', monospace`;
+            this.ctx.fillStyle = '#58A6FF';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(this.countdown, this.canvas.width / 2, this.canvas.height / 2);
             this.ctx.textBaseline = 'alphabetic';
@@ -293,8 +293,8 @@ class PongGame {
         // Display game over message
         if (this.gameOver) {
             this.ctx.textAlign = 'center';
-            this.ctx.font = `${this.isMobile ? '20px' : '24px'} monospace`;
-            this.ctx.fillStyle = (this.playerScore >= this.winningScore) ? '#4FC1FF' : '#D7BA7D';
+            this.ctx.font = `${this.isMobile ? '20px' : '24px'} 'JetBrains Mono', monospace`;
+            this.ctx.fillStyle = (this.playerScore >= this.winningScore) ? '#58A6FF' : '#D7BA7D';
             const winner = (this.playerScore >= this.winningScore) ? 'YOU WIN!' : 'AI WINS!';
             this.ctx.fillText(winner, this.canvas.width / 2, this.canvas.height / 2);
         }

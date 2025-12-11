@@ -16,7 +16,12 @@
     <!-- Resource Hints -->
     <link rel="preconnect" href="https://verso.ink">
     <link rel="preconnect" href="https://calendar.app.google">
-    
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="// Patrick Swanson">
     <meta property="og:description" content="I'm a journalist who loves to build cool things - from AI tools to TikTok accounts.">
@@ -61,7 +66,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#1E1E1E">
+    <meta name="theme-color" content="#0D1117">
 </head>
 <body>
     <a href="#main" class="skip-link">Skip to main content</a>
@@ -181,7 +186,7 @@
 
                             <div class="case-study-details">
                                 <h3>Verso Playground</h3>
-                                <p>An experimental AI toolbox that helps journalists adapt their work for different audiences and formats. Built in collaboration with Anthropic's Claude, it's designed as a safe space for newsrooms to explore AI's potential.</p>
+                                <p>An experimental AI toolbox that helps journalists adapt their work for different audiences and formats. Built in collaboration with Anthropic's Claude, it's designed to help newsrooms explore AI's potential.</p>
                                 <ul>
                                     <li>Transform articles into podcasts, social posts, and other formats</li>
                                     <li>Generate fresh angles and headlines while maintaining editorial control</li>
@@ -295,12 +300,27 @@
                             </ul>
                         </div>
 
+                        <div class="work-examples">
+                            <h3>Boards & Juries</h3>
+                            <ul>
+                                <li>Future Insights Board, <a href="https://www.mediahuis.com" target="_blank" rel="noopener noreferrer">Mediahuis</a> (European media company, Netherlands/Belgium)</li>
+                                <li>Advisory Board, <a href="https://datumstiftung.at" target="_blank" rel="noopener noreferrer">DATUM STIFTUNG</a> (Austrian foundation for journalism & democracy)</li>
+                                <li>Jury Member, <a href="https://www.mediaforwardfund.org" target="_blank" rel="noopener noreferrer">Media Forward Fund</a> (journalism fund for Germany, Austria & Switzerland)</li>
+                            </ul>
+                        </div>
+
                         <div class="speaking-grid">
+                            <button class="speaking-image" type="button" aria-label="View keynote photo from NOW Business Days in Vienna">
+                                <img src="images/patrick-nowbusiness.jpeg" alt="Keynote at NOW Business Days in Vienna" class="talk-image" loading="lazy">
+                            </button>
                             <button class="speaking-image" type="button" aria-label="View keynote photo from WKO Communications Festival in Vienna">
                                 <img src="images/keynote_wko.jpeg" alt="Keynote at the WKO Communications Festival in Vienna" class="talk-image" loading="lazy">
                             </button>
                             <button class="speaking-image" type="button" aria-label="View panel discussion photo from Mediareform conference in Luxembourg">
                                 <img src="images/panel_lux.jpg" alt="Panel discussion at the Mediareform conference in Luxembourg" class="talk-image" loading="lazy">
+                            </button>
+                            <button class="speaking-image" type="button" aria-label="View photo from Media Forward Fund jury meeting">
+                                <img src="images/patrick-mff.jpg" alt="Jury meeting at Media Forward Fund. Photo: Valerie Maltseva" class="talk-image" loading="lazy">
                             </button>
                         </div>
                     </div>
@@ -360,6 +380,7 @@
             const heroContent = document.querySelector('.hero-content');
             const pongCanvas = document.getElementById('pongCanvas');
             const workHighlights = document.querySelector('.work-highlights');
+            const footer = document.querySelector('footer');
 
             function updateState(newState) {
                 currentState = newState;
@@ -370,14 +391,16 @@
                         logoText.setAttribute('href', '/');
                         heroContent.classList.remove('hidden');
                         workHighlights.classList.remove('hidden');
+                        footer.classList.remove('hidden');
                         easterEgg.classList.remove('active');
                         logoTrigger.classList.remove('game-mode');
                         break;
-                        
+
                     case GameState.TYPING:
                         logoText.removeAttribute('href');
                         heroContent.classList.add('hidden');
                         workHighlights.classList.add('hidden');
+                        footer.classList.add('hidden');
                         easterEgg.classList.add('active');
                         typeText();
                         break;
