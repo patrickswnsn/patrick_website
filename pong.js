@@ -1,8 +1,9 @@
 class PongGame {
-    constructor(canvas) {
+    constructor(canvas, options = {}) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-        
+        this.touchZone = options.touchZone || null;
+
         // Basic settings
         this.setCanvasSize();
         this.winningScore = 5;
@@ -11,9 +12,9 @@ class PongGame {
         this.playerScore = 0;
         this.computerScore = 0;
         this.gameOver = false;
-        this.gameStarted = false; 
+        this.gameStarted = false;
         this.countdown = 3;
-        this.pongStarted = false; 
+        this.pongStarted = false;
         this.lastTime = 0;
         this.deltaTime = 0;
         this.isMobile = window.innerWidth <= 768;
@@ -31,7 +32,7 @@ class PongGame {
             height: this.isMobile ? 60 : 80,
             y: (this.canvas.height / 2) - (this.isMobile ? 30 : 40),
             targetY: (this.canvas.height / 2) - (this.isMobile ? 30 : 40),
-            speed: this.isMobile ? 250 : 300  // Slightly slower on mobile
+            speed: this.isMobile ? 250 : 300
         };
 
         // Ball
@@ -49,13 +50,17 @@ class PongGame {
         // Event binding
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.handleTouchZoneMove = this.handleTouchZoneMove.bind(this);
         this.handleResize = this.handleResize.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
 
         // Add event listeners
-        if (this.isMobile) {
-            this.canvas.addEventListener('touchmove', this.handleTouchMove, { passive: true });
-            this.canvas.addEventListener('touchstart', this.handleTouchMove, { passive: true });
+        if (this.isMobile && this.touchZone) {
+            this.touchZone.addEventListener('touchmove', this.handleTouchZoneMove, { passive: false });
+            this.touchZone.addEventListener('touchstart', this.handleTouchZoneMove, { passive: false });
+        } else if (this.isMobile) {
+            this.canvas.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+            this.canvas.addEventListener('touchstart', this.handleTouchMove, { passive: false });
         } else {
             this.canvas.addEventListener('mousemove', this.handleMouseMove);
         }
@@ -65,12 +70,9 @@ class PongGame {
     setCanvasSize() {
         const isMobile = window.innerWidth <= 768;
         if (isMobile) {
-            // On mobile, make the canvas fill most of the screen width
             this.canvas.width = Math.min(window.innerWidth * 0.9, 400);
-            // Maintain aspect ratio
             this.canvas.height = this.canvas.width * 0.8;
         } else {
-            // Desktop dimensions remain unchanged
             this.canvas.width = 600;
             this.canvas.height = 400;
         }
@@ -79,25 +81,30 @@ class PongGame {
     handleResize() {
         const wasMobile = this.isMobile;
         this.isMobile = window.innerWidth <= 768;
-        
-        // Only update if mobile state changed
+
         if (wasMobile !== this.isMobile) {
             this.setCanvasSize();
-            // Update paddle and ball sizes
             this.paddle.width = this.isMobile ? 8 : 12;
             this.paddle.height = this.isMobile ? 60 : 80;
             this.computerPaddle.width = this.isMobile ? 8 : 12;
             this.computerPaddle.height = this.isMobile ? 60 : 80;
             this.ball.radius = this.isMobile ? 4 : 6;
-            
-            // Update event listeners
-            if (this.isMobile) {
+
+            if (this.isMobile && this.touchZone) {
                 this.canvas.removeEventListener('mousemove', this.handleMouseMove);
-                this.canvas.addEventListener('touchmove', this.handleTouchMove, { passive: true });
-                this.canvas.addEventListener('touchstart', this.handleTouchMove, { passive: true });
+                this.touchZone.addEventListener('touchmove', this.handleTouchZoneMove, { passive: false });
+                this.touchZone.addEventListener('touchstart', this.handleTouchZoneMove, { passive: false });
+            } else if (this.isMobile) {
+                this.canvas.removeEventListener('mousemove', this.handleMouseMove);
+                this.canvas.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+                this.canvas.addEventListener('touchstart', this.handleTouchMove, { passive: false });
             } else {
                 this.canvas.removeEventListener('touchmove', this.handleTouchMove);
                 this.canvas.removeEventListener('touchstart', this.handleTouchMove);
+                if (this.touchZone) {
+                    this.touchZone.removeEventListener('touchmove', this.handleTouchZoneMove);
+                    this.touchZone.removeEventListener('touchstart', this.handleTouchZoneMove);
+                }
                 this.canvas.addEventListener('mousemove', this.handleMouseMove);
             }
         }
@@ -111,17 +118,33 @@ class PongGame {
         this.paddle.y = Math.min(Math.max(touchY - this.paddle.height / 2, 0), this.canvas.height - this.paddle.height);
     }
 
+    handleTouchZoneMove(e) {
+        e.preventDefault();
+        const rect = this.touchZone.getBoundingClientRect();
+        const touch = e.touches[0];
+        const touchY = touch.clientY - rect.top;
+        // Map vertical position in touch zone to paddle position on canvas
+        const ratio = Math.max(0, Math.min(1, touchY / rect.height));
+        this.paddle.y = ratio * (this.canvas.height - this.paddle.height);
+
+        // Update visual indicator
+        const indicator = this.touchZone.querySelector('.touch-zone-indicator');
+        if (indicator) {
+            const indicatorY = ratio * (rect.height - 8);
+            indicator.style.top = `${indicatorY}px`;
+        }
+    }
+
     handleMouseMove(e) {
         const rect = this.canvas.getBoundingClientRect();
         const mouseY = e.clientY - rect.top;
-        // Directly follow mouse within the vertical bounds
         this.paddle.y = Math.min(Math.max(mouseY - this.paddle.height / 2, 0), this.canvas.height - this.paddle.height);
     }
 
     resetBall(direction = 1) {
         this.ball.x = this.canvas.width / 2;
         this.ball.y = this.canvas.height / 2;
-        const angle = (Math.random() * Math.PI / 2) - (Math.PI / 4); // -45° to 45°
+        const angle = (Math.random() * Math.PI / 2) - (Math.PI / 4);
         this.ball.speedX = this.ball.baseSpeed * direction;
         this.ball.speedY = this.ball.speedX * Math.tan(angle);
     }
@@ -129,23 +152,19 @@ class PongGame {
     updateComputerPaddle() {
         if (!this.gameStarted || this.gameOver) return;
 
-        // If the ball is on the AI's half (to the right side), follow it
         if (this.ball.x > this.canvas.width / 2) {
             this.computerPaddle.targetY = Math.min(
-                Math.max(this.ball.y - this.computerPaddle.height / 2, 0), 
+                Math.max(this.ball.y - this.computerPaddle.height / 2, 0),
                 this.canvas.height - this.computerPaddle.height
             );
         } else {
-            // Move paddle back to center when ball is far away
             this.computerPaddle.targetY = (this.canvas.height / 2) - (this.computerPaddle.height / 2);
         }
 
-        // Move AI paddle smoothly towards targetY
         const diff = this.computerPaddle.targetY - this.computerPaddle.y;
         const distance = Math.abs(diff);
         if (distance > 1) {
             const dir = diff > 0 ? 1 : -1;
-            // Move at fraction of speed depending on distance
             const move = Math.min(this.computerPaddle.speed * this.deltaTime, distance);
             this.computerPaddle.y += move * dir;
         }
@@ -154,11 +173,9 @@ class PongGame {
     updateBall() {
         if (!this.gameStarted || this.gameOver) return;
 
-        // Move ball
         this.ball.x += this.ball.speedX * this.deltaTime;
         this.ball.y += this.ball.speedY * this.deltaTime;
 
-        // Collision with top/bottom
         if (this.ball.y - this.ball.radius < 0) {
             this.ball.y = this.ball.radius;
             this.ball.speedY = -this.ball.speedY;
@@ -167,31 +184,26 @@ class PongGame {
             this.ball.speedY = -this.ball.speedY;
         }
 
-        // Player paddle collision
-        if (this.ball.x - this.ball.radius < 40 + this.paddle.width && 
-            this.ball.x > 40 && 
-            this.ball.y > this.paddle.y && 
+        if (this.ball.x - this.ball.radius < 40 + this.paddle.width &&
+            this.ball.x > 40 &&
+            this.ball.y > this.paddle.y &&
             this.ball.y < this.paddle.y + this.paddle.height) {
-            // Ball hit player paddle
             const centerY = this.paddle.y + this.paddle.height / 2;
             const hitDiff = this.ball.y - centerY;
-            const normalized = hitDiff / (this.paddle.height / 2); // -1 to 1
-            const bounceAngle = normalized * (Math.PI / 4); // up to ±45°
+            const normalized = hitDiff / (this.paddle.height / 2);
+            const bounceAngle = normalized * (Math.PI / 4);
             const speed = Math.min(this.ball.maxSpeed, Math.abs(this.ball.speedX) * this.ball.acceleration);
 
-            this.ball.speedX = speed; 
+            this.ball.speedX = speed;
             this.ball.speedY = speed * Math.sin(bounceAngle);
-            // Ensure direction is to the right after bouncing off player
-            if (this.ball.speedX < 0) this.ball.speedX *= -1; 
+            if (this.ball.speedX < 0) this.ball.speedX *= -1;
         }
 
-        // Computer paddle collision
         const rightPaddleX = this.canvas.width - 50;
-        if (this.ball.x + this.ball.radius > rightPaddleX && 
+        if (this.ball.x + this.ball.radius > rightPaddleX &&
             this.ball.x < rightPaddleX + this.computerPaddle.width &&
             this.ball.y > this.computerPaddle.y &&
             this.ball.y < this.computerPaddle.y + this.computerPaddle.height) {
-            // Ball hit AI paddle
             const centerY = this.computerPaddle.y + this.computerPaddle.height / 2;
             const hitDiff = this.ball.y - centerY;
             const normalized = hitDiff / (this.computerPaddle.height / 2);
@@ -200,13 +212,10 @@ class PongGame {
 
             this.ball.speedX = -speed;
             this.ball.speedY = speed * Math.sin(bounceAngle);
-            // Ensure direction is to the left after bouncing off AI
             if (this.ball.speedX > 0) this.ball.speedX *= -1;
         }
 
-        // Out of bounds scoring
         if (this.ball.x + this.ball.radius < 0) {
-            // AI scores
             this.computerScore++;
             if (this.computerScore >= this.winningScore) {
                 this.gameOver = true;
@@ -214,7 +223,6 @@ class PongGame {
                 this.resetBall(1);
             }
         } else if (this.ball.x - this.ball.radius > this.canvas.width) {
-            // Player scores
             this.playerScore++;
             if (this.playerScore >= this.winningScore) {
                 this.gameOver = true;
@@ -237,11 +245,8 @@ class PongGame {
 
     drawPaddles() {
         if (!this.gameOver) {
-            // Player paddle (left) - accent cyan
             this.ctx.fillStyle = '#58A6FF';
             this.ctx.fillRect(40, this.paddle.y, this.paddle.width, this.paddle.height);
-
-            // Computer paddle (right) - accent orange/gold
             this.ctx.fillStyle = '#D7BA7D';
             this.ctx.fillRect(this.canvas.width - 50, this.computerPaddle.y, this.computerPaddle.width, this.computerPaddle.height);
         }
@@ -268,7 +273,6 @@ class PongGame {
         this.ctx.fillStyle = '#D7BA7D';
         this.ctx.fillText(`AI: ${this.computerScore}`, this.canvas.width - (this.isMobile ? 20 : 40), this.isMobile ? 20 : 30);
 
-        // Center line when game is on
         if (this.gameStarted && !this.gameOver) {
             this.ctx.setLineDash([5, 15]);
             this.ctx.beginPath();
@@ -280,7 +284,6 @@ class PongGame {
             this.ctx.setLineDash([]);
         }
 
-        // Countdown before start
         if (!this.gameStarted && !this.gameOver) {
             this.ctx.textAlign = 'center';
             this.ctx.font = `${this.isMobile ? '48px' : '72px'} 'JetBrains Mono', monospace`;
@@ -290,7 +293,6 @@ class PongGame {
             this.ctx.textBaseline = 'alphabetic';
         }
 
-        // Display game over message
         if (this.gameOver) {
             this.ctx.textAlign = 'center';
             this.ctx.font = `${this.isMobile ? '20px' : '24px'} 'JetBrains Mono', monospace`;
@@ -345,7 +347,6 @@ class PongGame {
                 clearInterval(countdownInterval);
                 this.gameStarted = true;
                 setTimeout(() => {
-                    // Just ensure ball is in play
                     this.resetBall(1);
                 }, 100);
             }
@@ -355,6 +356,10 @@ class PongGame {
     stop() {
         this.pongStarted = false;
         window.removeEventListener('resize', this.handleResize);
+        if (this.touchZone) {
+            this.touchZone.removeEventListener('touchmove', this.handleTouchZoneMove);
+            this.touchZone.removeEventListener('touchstart', this.handleTouchZoneMove);
+        }
         if (this.isMobile) {
             this.canvas.removeEventListener('touchmove', this.handleTouchMove);
             this.canvas.removeEventListener('touchstart', this.handleTouchMove);
