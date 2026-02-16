@@ -120,6 +120,8 @@ class PongGame {
 
     handleTouchZoneMove(e) {
         e.preventDefault();
+        const label = this.touchZone.querySelector('.touch-zone-label');
+        if (label) label.style.opacity = '0';
         const rect = this.touchZone.getBoundingClientRect();
         const touch = e.touches[0];
         const touchY = touch.clientY - rect.top;

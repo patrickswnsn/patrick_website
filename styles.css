@@ -1007,6 +1007,7 @@ nav {
     font-size: 0.7rem;
     opacity: 0.4;
     pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
 /* ==========================================================================
