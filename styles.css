@@ -17,7 +17,7 @@
 
     /* Layout */
     --content-width: 1100px;
-    --card-radius: 8px;
+    --card-radius: 0;
     --side-padding: 2rem;
     --base-transition: 0.25s;
 
@@ -46,7 +46,6 @@
 
 ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
-    border-radius: 4px;
 }
 
 body {
@@ -84,7 +83,7 @@ body {
     z-index: 1000;
     text-decoration: none;
     font-weight: 500;
-    border-radius: 0 0 var(--card-radius) 0;
+    border-radius: 0;
     transition: top var(--base-transition) ease;
 }
 
@@ -828,7 +827,6 @@ nav {
     position: relative;
     cursor: pointer;
     overflow: hidden;
-    border-radius: 8px;
     transition: transform var(--base-transition) ease, box-shadow var(--base-transition) ease;
     /* Button reset for accessibility */
     background: transparent;
@@ -863,7 +861,6 @@ nav {
     z-index: 2;
     background: rgba(13, 17, 23, 0.85);
     padding: 0.2rem 0.4rem;
-    border-radius: 3px;
     backdrop-filter: blur(4px);
     transition: opacity var(--base-transition) ease;
 }
@@ -993,7 +990,6 @@ nav {
     width: 100%;
     height: 8px;
     background: var(--accent-cyan);
-    border-radius: 4px;
     position: absolute;
     top: 46px;
     left: 0;
@@ -1002,6 +998,8 @@ nav {
 }
 
 .touch-zone-label {
+    position: absolute;
+    top: 0.4rem;
     color: var(--text-secondary);
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
@@ -1112,7 +1110,6 @@ footer.hidden {
     max-width: 100%;
     max-height: 80vh;
     object-fit: contain;
-    border-radius: 4px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 

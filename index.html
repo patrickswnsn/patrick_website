@@ -365,7 +365,6 @@
 
             let currentState = GameState.DEFAULT;
             let pongGame = null;
-            const isMobile = window.innerWidth <= 768;
 
             const easterEggText = [
                 "// This website was built by",
@@ -418,13 +417,14 @@
                         logoText.textContent = "> END GAME";
                         easterEgg.style.opacity = '0';
                         setTimeout(() => {
+                            const isMobileNow = window.innerWidth <= 768;
                             easterEgg.style.display = 'none';
                             pongCanvas.classList.add('active');
-                            if (isMobile) {
+                            if (isMobileNow) {
                                 pongTouchZone.classList.add('active');
                             }
                             pongGame = new PongGame(pongCanvas, {
-                                touchZone: isMobile ? pongTouchZone : null
+                                touchZone: isMobileNow ? pongTouchZone : null
                             });
                             pongGame.start();
                         }, 300);
